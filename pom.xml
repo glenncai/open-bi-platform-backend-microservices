@@ -15,10 +15,11 @@
   <name>openbiplatform</name>
   <description>Open BI Platform Microservices</description>
   <modules>
-    <module>user</module>
-    <module>common</module>
-    <module>gateway</module>
-    <module>service-registry</module>
+    <module>openbi-user</module>
+    <module>openbi-common</module>
+    <module>openbi-gateway</module>
+    <module>openbi-service-registry</module>
+    <module>openbi-config-server</module>
   </modules>
 
   <properties>
@@ -26,7 +27,7 @@
     <spring-cloud.version>2021.0.8</spring-cloud.version>
     <fastjson.version>1.2.83</fastjson.version>
     <hutool-all.version>5.8.16</hutool-all.version>
-    <common.version>0.0.1</common.version>
+    <openbi-common.version>0.0.1</openbi-common.version>
   </properties>
 
   <dependencyManagement>
@@ -57,8 +58,8 @@
       <!-- Common module -->
       <dependency>
         <groupId>com.glenncai</groupId>
-        <artifactId>common</artifactId>
-        <version>${common.version}</version>
+        <artifactId>openbi-common</artifactId>
+        <version>${openbi-common.version}</version>
       </dependency>
 
     </dependencies>

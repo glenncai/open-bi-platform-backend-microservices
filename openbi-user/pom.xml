@@ -9,7 +9,7 @@
     <version>0.0.1</version>
   </parent>
 
-  <artifactId>user</artifactId>
+  <artifactId>openbi-user</artifactId>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
@@ -21,7 +21,7 @@
     <!-- Common module -->
     <dependency>
       <groupId>com.glenncai</groupId>
-      <artifactId>common</artifactId>
+      <artifactId>openbi-common</artifactId>
     </dependency>
 
     <dependency>

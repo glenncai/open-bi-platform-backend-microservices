@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: OPEN-BI-GATEWAY
+  config:
+    import: configserver:http://localhost:8080
+server:
+  port: 8000
