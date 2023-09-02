@@ -1,0 +1,41 @@
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  session:
+    timeout: 259200 # 3 days
+    store-type: redis # Distributed session storage
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 10MB
+      enabled: true
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    timeout: 10s
+    password: test123456!
+  cache:
+    redis:
+      time-to-live: 2592000000 # 30 days
+    type: redis
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  datasource:
+    url: jdbc:mysql://localhost:3306/bi?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Hong_Kong
+    username: root
+    password: test123456!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: valid
+      logic-delete-value: 0
+      logic-not-delete-value: 1
