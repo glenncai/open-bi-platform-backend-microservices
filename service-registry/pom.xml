@@ -9,7 +9,7 @@
     <version>0.0.1</version>
   </parent>
 
-  <artifactId>gateway</artifactId>
+  <artifactId>service-registry</artifactId>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
@@ -25,19 +25,7 @@
 
     <dependency>
       <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <scope>runtime</scope>
-      <optional>true</optional>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-gateway</artifactId>
+      <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
     </dependency>
 
     <dependency>

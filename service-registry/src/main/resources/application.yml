@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: OPEN-BI-SERVICE-REGISTRY
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false # Don't register itself to Eureka
+    fetch-registry: false # Don't fetch registry from Eureka
+logging:
+  level:
+    com:
+      netflix:
+        eureka: OFF
+        discovery: OFF

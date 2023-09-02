@@ -18,6 +18,7 @@
     <module>user</module>
     <module>common</module>
     <module>gateway</module>
+    <module>service-registry</module>
   </modules>
 
   <properties>
