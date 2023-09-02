@@ -23,6 +23,20 @@
       <groupId>com.glenncai</groupId>
       <artifactId>openbi-common</artifactId>
     </dependency>
+
+    <!-- Spring Boot Test -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- MyBatis Test -->
+    <dependency>
+      <groupId>org.mybatis.spring.boot</groupId>
+      <artifactId>mybatis-spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
