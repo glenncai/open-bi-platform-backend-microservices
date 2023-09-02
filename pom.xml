@@ -17,6 +17,7 @@
   <modules>
     <module>user</module>
     <module>common</module>
+    <module>gateway</module>
   </modules>
 
   <properties>
