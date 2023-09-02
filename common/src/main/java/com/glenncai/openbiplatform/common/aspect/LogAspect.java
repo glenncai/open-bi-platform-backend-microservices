@@ -1,4 +1,4 @@
-package com.glenncai.openbiplatform.user.aspect;
+package com.glenncai.openbiplatform.common.aspect;
 
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSON;
