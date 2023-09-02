@@ -3,5 +3,20 @@ spring:
     name: OPEN-BI-GATEWAY
   config:
     import: configserver:http://localhost:8080
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowCredentials: true
+            allowedHeaders: '*'
+            allowedMethods: '*'
+            allowedOriginPatterns: '*'
+            maxAge: 3600
+      routes:
+        - id: OPEN-BI-USER-SERVICE
+          uri: lb://OPEN-BI-USER-SERVICE
+          predicates:
+            - Path=/api/user/**
 server:
   port: 8000

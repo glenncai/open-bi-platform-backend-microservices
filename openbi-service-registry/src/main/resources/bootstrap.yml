@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: OPEN-BI-SERVICE-REGISTRY
