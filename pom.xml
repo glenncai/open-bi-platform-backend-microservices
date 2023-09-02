@@ -20,6 +20,8 @@
     <module>openbi-gateway</module>
     <module>openbi-service-registry</module>
     <module>openbi-config-server</module>
+    <module>openbi-ip</module>
+    <module>openbi-ai-analytics</module>
   </modules>
 
   <properties>

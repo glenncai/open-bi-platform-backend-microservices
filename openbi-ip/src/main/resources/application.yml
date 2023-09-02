@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: OPEN-BI-IP-SERVICE
+  config:
+    import: configserver:http://localhost:8080
+server:
+  port: 8002
+  address: 0.0.0.0
+  servlet:
+    context-path: /api
+    session:
+      cookie:
+        max-age: 2592000 # Expires in 30 days
+logging:
+  config: classpath:logback-spring.xml # Logback configuration file
