@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  * Log aspect to log request info
  *
  * @author Glenn Cai
- * @version 1.0 1/9/2023
+ * @version 1.0 01/09/2023
  */
 @Aspect
 @Component
