@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glenncai.openbiplatform.aikey.mapper.AiKeyMapper">
+
+  <resultMap id="BaseResultMap" type="com.glenncai.openbiplatform.aikey.model.entity.AiKey">
+    <id property="id" column="id" jdbcType="BIGINT"/>
+    <result property="key" column="key" jdbcType="VARCHAR"/>
+    <result property="belongTo" column="belong_to" jdbcType="VARCHAR"/>
+    <result property="valid" column="valid" jdbcType="TINYINT"/>
+    <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+    <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,key,belong_to,
+    valid,created_at,updated_at
+  </sql>
+</mapper>
