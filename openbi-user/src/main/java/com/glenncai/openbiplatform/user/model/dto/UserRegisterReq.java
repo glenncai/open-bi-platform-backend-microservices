@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @version 1.0 03/09/2023
  */
 @Data
-public class UserRegisterRequest implements Serializable {
+public class UserRegisterReq implements Serializable {
 
   @Serial
   private static final long serialVersionUID = 5828747689399838674L;

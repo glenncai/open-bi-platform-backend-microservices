@@ -1,4 +1,4 @@
-package com.glenncai.openbiplatform.user.constant;
+package com.glenncai.openbiplatform.common.constant;
 
 /**
  * User constant
