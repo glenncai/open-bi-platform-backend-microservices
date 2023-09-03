@@ -11,6 +11,14 @@ import com.glenncai.openbiplatform.user.model.entity.User;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+  /**
+   * Custom login sql query
+   *
+   * @param username username
+   * @param password password
+   * @return user info
+   */
+  User login(String username, String password);
 }
 
 

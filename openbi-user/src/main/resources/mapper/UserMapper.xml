@@ -20,4 +20,14 @@
     `role`,login_ip,valid,
     created_at,updated_at
   </sql>
+
+  <!-- Login sql query -->
+  <select id="login" parameterType="string" resultType="com.glenncai.openbiplatform.user.model.entity.User">
+    SELECT *
+    FROM t_user
+    WHERE `username` = #{username}
+      AND `password` = #{password}
+      AND `valid` = 1
+    LIMIT 1
+  </select>
 </mapper>
