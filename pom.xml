@@ -22,6 +22,7 @@
     <module>openbi-config-server</module>
     <module>openbi-ip</module>
     <module>openbi-ai-analytics</module>
+    <module>openbi-ai-key</module>
   </modules>
 
   <properties>
