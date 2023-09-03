@@ -1,12 +1,12 @@
-package com.glenncai.openbiplatform.exception.enums;
+package com.glenncai.openbiplatform.common.exception.enums;
 
-import com.glenncai.openbiplatform.common.ErrorCode;
+import com.glenncai.openbiplatform.common.common.ErrorCode;
 
 /**
- * This enum is for auth exception constant in code and message pair
+ * Enum for authentication exception constant in code and message pair
  *
  * @author Glenn Cai
- * @version 1.0 07/22/2023
+ * @version 1.0 22/07/2023
  */
 public enum AuthExceptionEnum {
 
@@ -35,6 +35,7 @@ public enum AuthExceptionEnum {
    * Error code
    */
   private final int code;
+
   /**
    * Error message
    */

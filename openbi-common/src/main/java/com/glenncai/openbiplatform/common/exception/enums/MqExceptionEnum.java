@@ -1,16 +1,16 @@
-package com.glenncai.openbiplatform.exception.enums;
+package com.glenncai.openbiplatform.common.exception.enums;
 
-import com.glenncai.openbiplatform.common.ErrorCode;
+import com.glenncai.openbiplatform.common.common.ErrorCode;
 
 /**
- * This enum is for MQ exception constant in code and message pair
+ * Enum for MQ exception constant in code and message pair
  *
  * @author Glenn Cai
  * @version 1.0 29/08/2023
  */
 public enum MqExceptionEnum {
 
-  MQ_MESSAGE_EMPTY_ERROR(ErrorCode.PARAM_ERROR.getCode(), "MQ message is empty."),
+  MQ_MESSAGE_EMPTY_ERROR(ErrorCode.PARAM_ERROR.getCode(), "No messages are queued."),
   MQ_CHART_DATA_EMPTY_ERROR(ErrorCode.PARAM_ERROR.getCode(), "Chart data is empty.");
 
   /**

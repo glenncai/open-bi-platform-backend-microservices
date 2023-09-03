@@ -1,12 +1,12 @@
-package com.glenncai.openbiplatform.exception.enums;
+package com.glenncai.openbiplatform.common.exception.enums;
 
-import com.glenncai.openbiplatform.common.ErrorCode;
+import com.glenncai.openbiplatform.common.common.ErrorCode;
 
 /**
- * This enum is for chart exception constant in code and message pair
+ * Enum for AI exception constant in code and message pair
  *
  * @author Glenn Cai
- * @version 1.0 07/25/2023
+ * @version 1.0 25/07/2023
  */
 public enum ChartExceptionEnum {
 

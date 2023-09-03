@@ -6,16 +6,16 @@ import com.glenncai.openbiplatform.common.common.ErrorCode;
  * Enum for IP exception constant in code and message pair
  *
  * @author Glenn Cai
- * @version 1.0 07/26/2023
+ * @version 1.0 26/07/2023
  */
-public enum IpLimitExceptionEnum {
+public enum IpExceptionEnum {
 
-  IP_LIMIT_INIT_ERROR(ErrorCode.OPERATION_ERROR.getCode(), ErrorCode.OPERATION_ERROR.getMessage()),
-  IP_LIMIT_NOT_EXIST_ERROR(ErrorCode.OPERATION_ERROR.getCode(),
-                           ErrorCode.OPERATION_ERROR.getMessage()),
-  IP_LIMIT_CALL_COUNT_ERROR(ErrorCode.OPERATION_ERROR.getCode(), "No remaining quota."),
-  IP_LIMIT_UPDATE_ERROR(ErrorCode.OPERATION_ERROR.getCode(),
-                        ErrorCode.OPERATION_ERROR.getMessage());
+  IP_INIT_ERROR(ErrorCode.OPERATION_ERROR.getCode(), ErrorCode.OPERATION_ERROR.getMessage()),
+  IP_NOT_EXIST_ERROR(ErrorCode.OPERATION_ERROR.getCode(),
+                     ErrorCode.OPERATION_ERROR.getMessage()),
+  IP_CALL_COUNT_ERROR(ErrorCode.OPERATION_ERROR.getCode(), "No remaining quota."),
+  IP_UPDATE_ERROR(ErrorCode.OPERATION_ERROR.getCode(),
+                  ErrorCode.OPERATION_ERROR.getMessage());
 
   /**
    * Error code
@@ -27,7 +27,7 @@ public enum IpLimitExceptionEnum {
    */
   private final String message;
 
-  IpLimitExceptionEnum(int code, String message) {
+  IpExceptionEnum(int code, String message) {
     this.code = code;
     this.message = message;
   }
