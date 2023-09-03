@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glenncai.openbiplatform.ip.mapper.IpMapper">
+
+  <resultMap id="BaseResultMap" type="com.glenncai.openbiplatform.ip.model.entity.Ip">
+    <id property="ip" column="ip" jdbcType="VARCHAR"/>
+    <result property="remainingQuota" column="remaining_quota" jdbcType="INTEGER"/>
+    <result property="lastCallDate" column="last_call_date" jdbcType="TIMESTAMP"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ip,remaining_quota,last_call_date
+  </sql>
+</mapper>
