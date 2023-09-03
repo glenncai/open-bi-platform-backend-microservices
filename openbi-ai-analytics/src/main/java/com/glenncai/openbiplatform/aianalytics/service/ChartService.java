@@ -1,13 +1,14 @@
-package generator.service;
+package com.glenncai.openbiplatform.aianalytics.service;
 
-import generator.domain.Chart;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.glenncai.openbiplatform.aianalytics.model.entity.Chart;
 
 /**
-* @author Glenn Cai
-* @description 针对表【t_chart(Chart table)】的数据库操作Service
-* @createDate 2023-09-03 21:34:29
-*/
+ * Chart service
+ *
+ * @author Glenn Cai
+ * @version 1.0 03/09/2023
+ */
 public interface ChartService extends IService<Chart> {
 
 }

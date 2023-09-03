@@ -1,86 +1,90 @@
-package generator.domain;
+package com.glenncai.openbiplatform.aianalytics.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Date;
+
 /**
- * Chart table
- * @TableName t_chart
+ * Table t_chart entity
+ *
+ * @author Glenn Cai
+ * @version 1.0 03/09/2023
  */
-@TableName(value ="t_chart")
+@TableName(value = "t_chart")
 @Data
 public class Chart implements Serializable {
-    /**
-     * Primary key
-     */
-    @TableId(type = IdType.AUTO)
-    private Long id;
 
-    /**
-     * Analysis target
-     */
-    private String goal;
+  @Serial
+  @TableField(exist = false)
+  private static final long serialVersionUID = -4166183602118207671L;
 
-    /**
-     * Chart name
-     */
-    private String name;
+  /**
+   * Primary key
+   */
+  @TableId(type = IdType.ASSIGN_ID)
+  private Long id;
 
-    /**
-     * Chart data
-     */
-    private String chartData;
+  /**
+   * Analysis target
+   */
+  private String goal;
 
-    /**
-     * Chart type
-     */
-    private String chartType;
+  /**
+   * Chart name
+   */
+  private String name;
 
-    /**
-     * Generated chart data
-     */
-    private String genChartData;
+  /**
+   * Chart data
+   */
+  private String chartData;
 
-    /**
-     * Generated chart conclusion
-     */
-    private String genChartConclusion;
+  /**
+   * Chart type
+   */
+  private String chartType;
 
-    /**
-     * 0: Waiting, 1: Running, 2: Succeed, 3: Failed
-     */
-    private Integer status;
+  /**
+   * Generated chart data
+   */
+  private String genChartData;
 
-    /**
-     * Execution message
-     */
-    private String execMessage;
+  /**
+   * Generated chart conclusion
+   */
+  private String genChartConclusion;
 
-    /**
-     * User ID
-     */
-    private Long userId;
+  /**
+   * 0: Waiting, 1: Running, 2: Succeed, 3: Failed
+   */
+  private Integer status;
 
-    /**
-     * 0: invalid, 1: valid
-     */
-    private Integer valid;
+  /**
+   * Execution message
+   */
+  private String execMessage;
 
-    /**
-     * Created time
-     */
-    private Date createdAt;
+  /**
+   * User ID
+   */
+  private Long userId;
 
-    /**
-     * Updated time
-     */
-    private Date updatedAt;
+  /**
+   * 0: invalid, 1: valid
+   */
+  @TableLogic
+  private Integer valid;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
+  /**
+   * Created time
+   */
+  private Date createdAt;
+
+  /**
+   * Updated time
+   */
+  private Date updatedAt;
 }

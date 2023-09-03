@@ -1,14 +1,14 @@
-package generator.mapper;
+package com.glenncai.openbiplatform.aianalytics.mapper;
 
-import generator.domain.Chart;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.glenncai.openbiplatform.aianalytics.model.entity.Chart;
 
 /**
-* @author Glenn Cai
-* @description 针对表【t_chart(Chart table)】的数据库操作Mapper
-* @createDate 2023-09-03 21:34:29
-* @Entity generator.domain.Chart
-*/
+ * Chart mapper (dao)
+ *
+ * @author Glenn Cai
+ * @version 1.0 03/09/2023
+ */
 public interface ChartMapper extends BaseMapper<Chart> {
 
 }
