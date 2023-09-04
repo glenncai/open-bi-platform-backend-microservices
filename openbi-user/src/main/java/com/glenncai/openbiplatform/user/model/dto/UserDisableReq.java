@@ -6,20 +6,16 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * User add request body (DTO)
+ * User remove request body (DTO)
  *
  * @author Glenn Cai
  * @version 1.0 04/09/2023
  */
 @Data
-public class UserAddReq implements Serializable {
+public class UserDisableReq implements Serializable {
 
   @Serial
-  private static final long serialVersionUID = 521605385260627531L;
+  private static final long serialVersionUID = -3800607178412473883L;
 
   private String username;
-
-  private String password;
-
-  private String role;
 }

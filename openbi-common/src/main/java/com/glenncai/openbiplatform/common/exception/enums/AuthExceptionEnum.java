@@ -24,12 +24,14 @@ public enum AuthExceptionEnum {
   AUTH_PASSWORD_NOT_MATCH_ERROR(ErrorCode.PARAM_ERROR.getCode(),
                                 "Password and confirm password do not match."),
   AUTH_USERNAME_EXIST_ERROR(ErrorCode.PARAM_ERROR.getCode(), "Username already exists."),
+  AUTH_USER_NOT_EXIST_ERROR(ErrorCode.PARAM_ERROR.getCode(), "User does not exist."),
   AUTH_CREATE_USER_ERROR(ErrorCode.OPERATION_ERROR.getCode(), "Failed to create user."),
   AUTH_LOGIN_ERROR(ErrorCode.PARAM_ERROR.getCode(), "Username or password is incorrect."),
   AUTH_UPDATE_LOGIN_IP_ERROR(ErrorCode.SERVER_ERROR.getCode(),
                              "Please make sure your network is stable."),
   AUTH_NOT_LOGIN_ERROR(ErrorCode.NOT_LOGIN_ERROR.getCode(), ErrorCode.NOT_LOGIN_ERROR.getMessage()),
-  AUTH_OPERATION_ERROR(ErrorCode.OPERATION_ERROR.getCode(), ErrorCode.OPERATION_ERROR.getMessage());
+  AUTH_OPERATION_ERROR(ErrorCode.OPERATION_ERROR.getCode(), ErrorCode.OPERATION_ERROR.getMessage()),
+  AUTH_DISABLE_USER_ERROR(ErrorCode.OPERATION_ERROR.getCode(), "Failed to disable user.");
 
   /**
    * Error code

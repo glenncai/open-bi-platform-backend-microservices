@@ -30,4 +30,21 @@
       AND `valid` = 1
     LIMIT 1
   </select>
+
+  <!-- Select disabled user by username -->
+  <select id="selectDisabledUserByUsername" parameterType="string"
+    resultType="com.glenncai.openbiplatform.user.model.entity.User">
+    SELECT *
+    FROM t_user
+    WHERE `username` = #{username}
+      AND `valid` = 0
+    LIMIT 1
+  </select>
+
+  <!-- Enable user sql query -->
+  <update id="enableUser" parameterType="long">
+    UPDATE t_user
+    SET `valid` = 1
+    WHERE `id` = #{id}
+  </update>
 </mapper>

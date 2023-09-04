@@ -10,6 +10,9 @@ import com.glenncai.openbiplatform.common.model.dto.InitIpReq;
 import com.glenncai.openbiplatform.user.feign.IpFeign;
 import com.glenncai.openbiplatform.user.mapper.UserMapper;
 import com.glenncai.openbiplatform.user.model.dto.CheckUserExistReq;
+import com.glenncai.openbiplatform.user.model.dto.UserAddReq;
+import com.glenncai.openbiplatform.user.model.dto.UserDisableReq;
+import com.glenncai.openbiplatform.user.model.dto.UserEnableReq;
 import com.glenncai.openbiplatform.user.model.dto.UserLoginReq;
 import com.glenncai.openbiplatform.user.model.dto.UserRegisterReq;
 import com.glenncai.openbiplatform.user.model.entity.User;
@@ -247,7 +250,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
   }
 
   /**
-   * Check if user exist
+   * Check if user exist for register / add user
    *
    * @param checkUserExistReq check user exist request body
    */
@@ -259,6 +262,119 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
       throw new BusinessException(AuthExceptionEnum.AUTH_USERNAME_EXIST_ERROR.getCode(),
                                   AuthExceptionEnum.AUTH_USERNAME_EXIST_ERROR.getMessage());
     }
+  }
+
+  /**
+   * Add new user
+   *
+   * @param userAddReq user add request body
+   * @param request    http request
+   * @return the id of the newly created user
+   */
+  @Override
+  public long addUser(UserAddReq userAddReq, HttpServletRequest request) {
+    String clientIp = getClientIpAddress(request);
+    String username = userAddReq.getUsername();
+    String password = userAddReq.getPassword();
+    String role = userAddReq.getRole();
+
+    if (StringUtils.isAnyBlank(username, password, role)) {
+      throw new BusinessException(AuthExceptionEnum.AUTH_EMPTY_ERROR.getCode(),
+                                  AuthExceptionEnum.AUTH_EMPTY_ERROR.getMessage());
+    }
+    if (username.length() < 4 || username.length() > 16) {
+      throw new BusinessException(AuthExceptionEnum.AUTH_USERNAME_LENGTH_ERROR.getCode(),
+                                  AuthExceptionEnum.AUTH_USERNAME_LENGTH_ERROR.getMessage());
+    }
+    if (!username.matches(usernameValidateRegex)) {
+      throw new BusinessException(AuthExceptionEnum.AUTH_USERNAME_FORMAT_ERROR.getCode(),
+                                  AuthExceptionEnum.AUTH_USERNAME_FORMAT_ERROR.getMessage());
+    }
+    if (password.contains(" ")) {
+      throw new BusinessException(AuthExceptionEnum.AUTH_PASSWORD_SPACE_ERROR.getCode(),
+                                  AuthExceptionEnum.AUTH_PASSWORD_SPACE_ERROR.getMessage());
+    }
+    if (password.length() < 8) {
+      throw new BusinessException(AuthExceptionEnum.AUTH_PASSWORD_LENGTH_ERROR.getCode(),
+                                  AuthExceptionEnum.AUTH_PASSWORD_LENGTH_ERROR.getMessage());
+    }
+
+    synchronized (username.intern()) {
+      // Check if username already exists
+      CheckUserExistReq checkUserExistReq = new CheckUserExistReq();
+      checkUserExistReq.setUsername(username);
+      checkUserExist(checkUserExistReq);
+
+      // Encrypt password with MD5
+      String encryptedPassword = encryptPassword(password);
+
+      // Create user
+      User user = new User();
+      user.setUsername(username);
+      user.setPassword(encryptedPassword);
+      user.setRole(role);
+      boolean createResult = this.save(user);
+      if (!createResult) {
+        log.error("Client IP: {}, Username: {}, Error message: Failed to create new user", clientIp,
+                  username);
+        throw new BusinessException(AuthExceptionEnum.AUTH_CREATE_USER_ERROR.getCode(),
+                                    AuthExceptionEnum.AUTH_CREATE_USER_ERROR.getMessage());
+      }
+
+      log.info("Client IP: {}, Username: {}, Success message: Create user successfully", clientIp,
+               username);
+      return user.getId();
+    }
+  }
+
+  /**
+   * Disable user
+   *
+   * @param userDisableReq user remove request body
+   * @param request        http request
+   */
+  @Override
+  public void disableUser(UserDisableReq userDisableReq, HttpServletRequest request) {
+    String clientIp = getClientIpAddress(request);
+    String username = userDisableReq.getUsername();
+
+    // Disable user
+    User user = this.lambdaQuery().eq(User::getUsername, username).one();
+    if (user == null) {
+      log.error("Client IP: {}, Username: {}, Error message: User does not exist", clientIp,
+                username);
+      throw new BusinessException(AuthExceptionEnum.AUTH_USER_NOT_EXIST_ERROR.getCode(),
+                                  AuthExceptionEnum.AUTH_USER_NOT_EXIST_ERROR.getMessage());
+    }
+    int disableResult = userMapper.deleteById(user.getId());
+    if (disableResult == 0) {
+      log.error("Client IP: {}, Username: {}, Error message: Failed to disable user", clientIp,
+                username);
+      throw new BusinessException(AuthExceptionEnum.AUTH_DISABLE_USER_ERROR.getCode(),
+                                  AuthExceptionEnum.AUTH_DISABLE_USER_ERROR.getMessage());
+    }
+  }
+
+  /**
+   * Enable user
+   *
+   * @param userEnableReq user enable request body
+   * @param request       http request
+   */
+  @Override
+  public void enableUser(UserEnableReq userEnableReq, HttpServletRequest request) {
+    String clientIp = getClientIpAddress(request);
+    String username = userEnableReq.getUsername();
+
+    // Enable user
+    User user = userMapper.selectDisabledUserByUsername(username);
+    if (user == null) {
+      log.error("Client IP: {}, Username: {}, Error message: User does not exist", clientIp,
+                username);
+      throw new BusinessException(AuthExceptionEnum.AUTH_USER_NOT_EXIST_ERROR.getCode(),
+                                  AuthExceptionEnum.AUTH_USER_NOT_EXIST_ERROR.getMessage());
+    }
+    userMapper.enableUser(user.getId());
   }
 }
 

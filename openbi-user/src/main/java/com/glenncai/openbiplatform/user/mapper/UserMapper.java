@@ -19,6 +19,21 @@ public interface UserMapper extends BaseMapper<User> {
    * @return user info
    */
   User login(String username, String password);
+
+  /**
+   * Enable user by id (update valid to 1)
+   *
+   * @param id user id
+   */
+  void enableUser(Long id);
+
+  /**
+   * Select disabled user by username
+   *
+   * @param username username
+   * @return user info
+   */
+  User selectDisabledUserByUsername(String username);
 }
 
 

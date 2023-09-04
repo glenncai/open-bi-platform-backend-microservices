@@ -2,6 +2,9 @@ package com.glenncai.openbiplatform.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.glenncai.openbiplatform.user.model.dto.CheckUserExistReq;
+import com.glenncai.openbiplatform.user.model.dto.UserAddReq;
+import com.glenncai.openbiplatform.user.model.dto.UserDisableReq;
+import com.glenncai.openbiplatform.user.model.dto.UserEnableReq;
 import com.glenncai.openbiplatform.user.model.dto.UserLoginReq;
 import com.glenncai.openbiplatform.user.model.dto.UserRegisterReq;
 import com.glenncai.openbiplatform.user.model.entity.User;
@@ -60,9 +63,34 @@ public interface UserService extends IService<User> {
   LoginUserVO getCurrentLoginUserInfo(HttpServletRequest request);
 
   /**
-   * Check if user exist
+   * Check if user exist for register / add user
    *
    * @param checkUserExistReq check user exist request body
    */
   void checkUserExist(CheckUserExistReq checkUserExistReq);
+
+  /**
+   * Add new user
+   *
+   * @param userAddReq user add request body
+   * @param request    http request
+   * @return the id of the newly created user
+   */
+  long addUser(UserAddReq userAddReq, HttpServletRequest request);
+
+  /**
+   * Disable user
+   *
+   * @param userDisableReq user remove request body
+   * @param request        http request
+   */
+  void disableUser(UserDisableReq userDisableReq, HttpServletRequest request);
+
+  /**
+   * Enable user
+   *
+   * @param userEnableReq user enable request body
+   * @param request       http request
+   */
+  void enableUser(UserEnableReq userEnableReq, HttpServletRequest request);
 }

@@ -2,6 +2,9 @@ package com.glenncai.openbiplatform.user.controller;
 
 import com.glenncai.openbiplatform.common.common.BaseResponse;
 import com.glenncai.openbiplatform.common.common.BaseResult;
+import com.glenncai.openbiplatform.user.model.dto.UserAddReq;
+import com.glenncai.openbiplatform.user.model.dto.UserDisableReq;
+import com.glenncai.openbiplatform.user.model.dto.UserEnableReq;
 import com.glenncai.openbiplatform.user.model.dto.UserLoginReq;
 import com.glenncai.openbiplatform.user.model.dto.UserRegisterReq;
 import com.glenncai.openbiplatform.user.model.vo.LoginUserVO;
@@ -78,5 +81,41 @@ public class UserController {
   public BaseResponse<LoginUserVO> getCurrentLoginUserInfo(HttpServletRequest request) {
     LoginUserVO result = userService.getCurrentLoginUserInfo(request);
     return BaseResult.success(result);
+  }
+
+  /**
+   * Add new user
+   *
+   * @param userAddReq user add request body
+   * @param request    http request
+   * @return the id of the newly created user
+   */
+  @PostMapping("/add")
+  public BaseResponse<Long> addUser(@RequestBody UserAddReq userAddReq,
+                                    HttpServletRequest request) {
+    long result = userService.addUser(userAddReq, request);
+    return BaseResult.success(result);
+  }
+
+  /**
+   * Disable user
+   *
+   * @param userDisableReq user remove request body
+   * @param request        http request
+   */
+  @PostMapping("/disable")
+  public void disableUser(@RequestBody UserDisableReq userDisableReq, HttpServletRequest request) {
+    userService.disableUser(userDisableReq, request);
+  }
+
+  /**
+   * Enable user
+   *
+   * @param userEnableReq user enable request body
+   * @param request       http request
+   */
+  @PostMapping("/enable")
+  public void enableUser(@RequestBody UserEnableReq userEnableReq, HttpServletRequest request) {
+    userService.enableUser(userEnableReq, request);
   }
 }
