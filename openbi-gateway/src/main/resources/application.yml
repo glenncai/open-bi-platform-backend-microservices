@@ -4,6 +4,11 @@ spring:
   config:
     import: configserver:http://localhost:8080
   cloud:
+    loadbalancer:
+      cache:
+        enabled: true
+        caffeine:
+          spec: initialCapacity=100,maximumSize=500,expireAfterAccess=600s,expireAfterWrite=600s
     gateway:
       globalcors:
         cors-configurations:
@@ -20,3 +25,11 @@ spring:
             - Path=/api/user/**
 server:
   port: 8000
+logging:
+  config: classpath:logback-spring.xml # Logback configuration file
+  level:
+    org:
+      springframework:
+        cloud:
+          loadbalancer:
+            cache: debug

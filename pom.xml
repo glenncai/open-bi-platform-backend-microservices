@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -41,6 +41,7 @@
     <okhttp-logging-interceptor.version>4.11.0</okhttp-logging-interceptor.version>
     <redisson.version>3.23.2</redisson.version>
     <rabbitmq-client.version>5.18.0</rabbitmq-client.version>
+    <caffeine.version>3.1.8</caffeine.version>
   </properties>
 
   <dependencyManagement>
@@ -144,6 +145,13 @@
         <groupId>com.rabbitmq</groupId>
         <artifactId>amqp-client</artifactId>
         <version>${rabbitmq-client.version}</version>
+      </dependency>
+
+      <!-- Caffeine Cache -->
+      <dependency>
+        <groupId>com.github.ben-manes.caffeine</groupId>
+        <artifactId>caffeine</artifactId>
+        <version>${caffeine.version}</version>
       </dependency>
     </dependencies>
 
