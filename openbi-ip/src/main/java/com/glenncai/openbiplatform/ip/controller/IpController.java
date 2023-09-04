@@ -24,6 +24,11 @@ public class IpController {
   @Resource
   private IpService ipService;
 
+  /**
+   * Initialize IP
+   *
+   * @param initIpReq init IP request body
+   */
   @PostMapping("/init")
   public void initIp(@RequestBody InitIpReq initIpReq) {
     ipService.initIp(initIpReq);

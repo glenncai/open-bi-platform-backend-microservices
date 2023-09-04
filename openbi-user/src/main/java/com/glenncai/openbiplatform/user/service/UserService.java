@@ -44,12 +44,20 @@ public interface UserService extends IService<User> {
   boolean logout(HttpServletRequest request);
 
   /**
-   * Get current login user's filtered info
+   * Get login user's filtered info
    *
    * @param user user entity
    * @return filtered user info
    */
-  LoginUserVO getCurrentLoginUserVO(User user);
+  LoginUserVO getLoginUserVO(User user);
+
+  /**
+   * Get current login user filtered info
+   *
+   * @param request http request
+   * @return filtered user info
+   */
+  LoginUserVO getCurrentLoginUserInfo(HttpServletRequest request);
 
   /**
    * Check if user exist

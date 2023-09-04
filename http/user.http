@@ -1,0 +1,38 @@
+### User Service API
+
+### User register
+POST http://localhost:8000/api/user/register
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "test123456!",
+  "confirmPassword": "test123456!"
+}
+
+###
+
+### User login
+POST http://localhost:8000/api/user/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "test123456!"
+}
+
+###
+
+### User logout
+POST http://localhost:8000/api/user/logout
+Accept: application/json
+Content-Type: application/json
+
+###
+
+### Get user login info
+POST http://localhost:8000/api/user/get/login
+Accept: application/json
+Content-Type: application/json

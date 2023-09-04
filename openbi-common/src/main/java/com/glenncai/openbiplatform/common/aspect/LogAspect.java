@@ -72,7 +72,7 @@ public class LogAspect {
       arguments[i] = args[i];
     }
 
-    // Exclude sensitive parameters, such as password
+    // Exclude sensitive parameters, such as password and confirmPassword
     String[] excludeProperties = {"password", "confirmPassword"};
     PropertyPreFilters filters = new PropertyPreFilters();
     PropertyPreFilters.MySimplePropertyPreFilter excludeFilter = filters.addFilter();
@@ -85,7 +85,7 @@ public class LogAspect {
     long startTime = System.currentTimeMillis();
     Object result = proceedingJoinPoint.proceed();
 
-    // Exclude sensitive parameters, such as password
+    // Exclude sensitive parameters, such as password and confirmPassword
     String[] excludeProperties = {"password", "confirmPassword"};
     PropertyPreFilters filters = new PropertyPreFilters();
     PropertyPreFilters.MySimplePropertyPreFilter excludeFilter = filters.addFilter();

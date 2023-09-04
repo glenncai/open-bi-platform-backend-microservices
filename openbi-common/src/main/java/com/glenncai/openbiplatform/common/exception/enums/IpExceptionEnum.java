@@ -13,7 +13,7 @@ public enum IpExceptionEnum {
   IP_INIT_ERROR(ErrorCode.OPERATION_ERROR.getCode(), ErrorCode.OPERATION_ERROR.getMessage()),
   IP_NOT_EXIST_ERROR(ErrorCode.OPERATION_ERROR.getCode(),
                      ErrorCode.OPERATION_ERROR.getMessage()),
-  IP_CALL_COUNT_ERROR(ErrorCode.OPERATION_ERROR.getCode(), "No remaining quota."),
+  IP_REMAINING_QUOTA_ERROR(ErrorCode.OPERATION_ERROR.getCode(), "No remaining quota."),
   IP_UPDATE_ERROR(ErrorCode.OPERATION_ERROR.getCode(),
                   ErrorCode.OPERATION_ERROR.getMessage());
 

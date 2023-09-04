@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
@@ -12,6 +13,7 @@ import org.springframework.core.env.Environment;
 @MapperScan("com.glenncai.openbiplatform.user.mapper")
 @ComponentScan("com.glenncai.openbiplatform") // scan all packages like common module
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
+@EnableFeignClients(basePackages = {"com.glenncai.openbiplatform.user.feign"})
 @Slf4j
 public class UserApplication {
 

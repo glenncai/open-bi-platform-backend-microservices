@@ -6,6 +6,8 @@ import static com.glenncai.openbiplatform.common.utils.UserUtils.encryptPassword
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.glenncai.openbiplatform.common.exception.BusinessException;
 import com.glenncai.openbiplatform.common.exception.enums.AuthExceptionEnum;
+import com.glenncai.openbiplatform.common.model.dto.InitIpReq;
+import com.glenncai.openbiplatform.user.feign.IpFeign;
 import com.glenncai.openbiplatform.user.mapper.UserMapper;
 import com.glenncai.openbiplatform.user.model.dto.CheckUserExistReq;
 import com.glenncai.openbiplatform.user.model.dto.UserLoginReq;
@@ -36,6 +38,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
   @Resource
   private UserMapper userMapper;
+
+  @Resource
+  private IpFeign ipFeign;
 
   /**
    * User register
@@ -160,11 +165,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                                   AuthExceptionEnum.AUTH_UPDATE_LOGIN_IP_ERROR.getMessage());
     }
 
+    // Initialize IP
+    InitIpReq initIpReq = new InitIpReq();
+    initIpReq.setIp(clientIp);
+    ipFeign.initIp(initIpReq);
+
     // Save user info to session after login successfully
     log.info("Client IP: {}, Username: {}, Success message: Login successfully", clientIp,
              username);
     request.getSession().setAttribute(LOGIN_USER_STAGE, user);
-    return getCurrentLoginUserVO(user);
+    return getLoginUserVO(user);
   }
 
   /**
@@ -176,11 +186,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
   @Override
   public boolean logout(HttpServletRequest request) {
     if (request == null) {
+      log.error("Error message: Empty http request");
       throw new BusinessException(AuthExceptionEnum.AUTH_EMPTY_HTTP_REQUEST_ERROR.getCode(),
                                   AuthExceptionEnum.AUTH_EMPTY_HTTP_REQUEST_ERROR.getMessage());
     }
 
+    String clientIp = getClientIpAddress(request);
+
     if (request.getSession().getAttribute(LOGIN_USER_STAGE) == null) {
+      log.error("Client IP: {}, Error message: No login user info in session", clientIp);
       throw new BusinessException(AuthExceptionEnum.AUTH_OPERATION_ERROR.getCode(),
                                   AuthExceptionEnum.AUTH_OPERATION_ERROR.getMessage());
     }
@@ -191,19 +205,45 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
   }
 
   /**
-   * Get current login user's filtered info
+   * Get login user's filtered info
    *
    * @param user user entity
    * @return filtered user info
    */
   @Override
-  public LoginUserVO getCurrentLoginUserVO(User user) {
+  public LoginUserVO getLoginUserVO(User user) {
     if (user == null) {
       return null;
     }
     LoginUserVO loginUserVO = new LoginUserVO();
     BeanUtils.copyProperties(user, loginUserVO);
     return loginUserVO;
+  }
+
+  /**
+   * Get current login user filtered info
+   *
+   * @param request http request
+   * @return filtered user info
+   */
+  @Override
+  public LoginUserVO getCurrentLoginUserInfo(HttpServletRequest request) {
+    String clientIp = getClientIpAddress(request);
+    Object userObj = request.getSession().getAttribute(LOGIN_USER_STAGE);
+    User currentUser = (User) userObj;
+    if (currentUser == null || currentUser.getId() == null) {
+      log.error("Client IP: {}, Error message: No login user info in session", clientIp);
+      throw new BusinessException(AuthExceptionEnum.AUTH_NOT_LOGIN_ERROR.getCode(),
+                                  AuthExceptionEnum.AUTH_NOT_LOGIN_ERROR.getMessage());
+    }
+    long userId = currentUser.getId();
+    currentUser = this.getById(userId);
+    if (currentUser == null) {
+      log.error("Client IP: {}, Error message: No {} user info in database", clientIp, userId);
+      throw new BusinessException(AuthExceptionEnum.AUTH_NOT_LOGIN_ERROR.getCode(),
+                                  AuthExceptionEnum.AUTH_NOT_LOGIN_ERROR.getMessage());
+    }
+    return getLoginUserVO(currentUser);
   }
 
   /**
@@ -214,7 +254,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
   @Override
   public void checkUserExist(CheckUserExistReq checkUserExistReq) {
     User user = this.lambdaQuery().eq(User::getUsername, checkUserExistReq.getUsername()).one();
-    if (user == null) {
+    if (user != null) {
+      log.error("Username: {}, Error message: User not exist", checkUserExistReq.getUsername());
       throw new BusinessException(AuthExceptionEnum.AUTH_USERNAME_EXIST_ERROR.getCode(),
                                   AuthExceptionEnum.AUTH_USERNAME_EXIST_ERROR.getMessage());
     }
