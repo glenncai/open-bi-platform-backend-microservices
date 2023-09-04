@@ -23,6 +23,18 @@ spring:
           uri: lb://OPEN-BI-USER-SERVICE
           predicates:
             - Path=/api/user/**
+        - id: OPEN-BI-IP-SERVICE
+          uri: lb://OPEN-BI-IP-SERVICE
+          predicates:
+            - Path=/api/ip/**
+        - id: OPEN-BI-AI-KEY-SERVICE
+          uri: lb://OPEN-BI-AI-KEY-SERVICE
+          predicates:
+            - Path=/api/aikey/**
+        - id: OPEN-BI-AI-ANALYTICS-SERVICE
+          uri: lb://OPEN-BI-AI-ANALYTICS-SERVICE
+          predicates:
+            - Path=/api/aianalytics/**
 server:
   port: 8000
 logging:
