@@ -13,3 +13,9 @@ server:
         max-age: 2592000 # Expires in 30 days
 logging:
   config: classpath:logback-spring.xml # Logback configuration file
+  level:
+    com:
+      glenncai:
+        openbiplatform:
+          aianalytics:
+            mapper: trace
