@@ -1,6 +1,7 @@
 package com.glenncai.openbiplatform.ip.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.glenncai.openbiplatform.ip.model.dto.InitIpReq;
 import com.glenncai.openbiplatform.ip.model.entity.Ip;
 
 /**
@@ -11,4 +12,10 @@ import com.glenncai.openbiplatform.ip.model.entity.Ip;
  */
 public interface IpService extends IService<Ip> {
 
+  /**
+   * Initialize client ip
+   *
+   * @param initIpReq init ip request body
+   */
+  void initIp(InitIpReq initIpReq);
 }
