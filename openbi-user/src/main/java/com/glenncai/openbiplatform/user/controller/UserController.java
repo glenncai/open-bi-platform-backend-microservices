@@ -1,7 +1,9 @@
 package com.glenncai.openbiplatform.user.controller;
 
+import com.glenncai.openbiplatform.common.annotation.PreAuthorize;
 import com.glenncai.openbiplatform.common.common.BaseResponse;
 import com.glenncai.openbiplatform.common.common.BaseResult;
+import com.glenncai.openbiplatform.common.constant.UserConstant;
 import com.glenncai.openbiplatform.user.model.dto.UserAddReq;
 import com.glenncai.openbiplatform.user.model.dto.UserDisableReq;
 import com.glenncai.openbiplatform.user.model.dto.UserEnableReq;
@@ -51,24 +53,13 @@ public class UserController {
    *
    * @param userLoginReq user login request body
    * @param request      http request
-   * @return filtered user info
+   * @return JWT token
    */
   @PostMapping("/login")
-  public BaseResponse<LoginUserVO> login(@RequestBody UserLoginReq userLoginReq,
-                                         HttpServletRequest request) {
-    LoginUserVO result = userService.login(userLoginReq, request);
-    return BaseResult.success(result);
-  }
-
-  /**
-   * User logout api
-   *
-   * @param request http request
-   * @return success message
-   */
-  @PostMapping("/logout")
-  public BaseResponse<Boolean> logout(HttpServletRequest request) {
-    return BaseResult.success(userService.logout(request));
+  public BaseResponse<String> login(@RequestBody UserLoginReq userLoginReq,
+                                    HttpServletRequest request) {
+    String token = userService.login(userLoginReq, request);
+    return BaseResult.success(token);
   }
 
   /**
@@ -78,6 +69,7 @@ public class UserController {
    * @return filtered login user info
    */
   @PostMapping("/get/login")
+  @PreAuthorize(anyRole = {UserConstant.DEFAULT_ROLE, UserConstant.ADMIN_ROLE})
   public BaseResponse<LoginUserVO> getCurrentLoginUserInfo(HttpServletRequest request) {
     LoginUserVO result = userService.getCurrentLoginUserInfo(request);
     return BaseResult.success(result);
@@ -91,6 +83,7 @@ public class UserController {
    * @return the id of the newly created user
    */
   @PostMapping("/add")
+  @PreAuthorize(mustRole = UserConstant.ADMIN_ROLE)
   public BaseResponse<Long> addUser(@RequestBody UserAddReq userAddReq,
                                     HttpServletRequest request) {
     long result = userService.addUser(userAddReq, request);
@@ -104,6 +97,7 @@ public class UserController {
    * @param request        http request
    */
   @PostMapping("/disable")
+  @PreAuthorize(mustRole = UserConstant.ADMIN_ROLE)
   public void disableUser(@RequestBody UserDisableReq userDisableReq, HttpServletRequest request) {
     userService.disableUser(userDisableReq, request);
   }
@@ -115,6 +109,7 @@ public class UserController {
    * @param request       http request
    */
   @PostMapping("/enable")
+  @PreAuthorize(mustRole = UserConstant.ADMIN_ROLE)
   public void enableUser(@RequestBody UserEnableReq userEnableReq, HttpServletRequest request) {
     userService.enableUser(userEnableReq, request);
   }

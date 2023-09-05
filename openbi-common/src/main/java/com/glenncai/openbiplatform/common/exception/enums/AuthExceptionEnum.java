@@ -31,7 +31,11 @@ public enum AuthExceptionEnum {
                              "Please make sure your network is stable."),
   AUTH_NOT_LOGIN_ERROR(ErrorCode.NOT_LOGIN_ERROR.getCode(), ErrorCode.NOT_LOGIN_ERROR.getMessage()),
   AUTH_OPERATION_ERROR(ErrorCode.OPERATION_ERROR.getCode(), ErrorCode.OPERATION_ERROR.getMessage()),
-  AUTH_DISABLE_USER_ERROR(ErrorCode.OPERATION_ERROR.getCode(), "Failed to disable user.");
+  AUTH_DISABLE_USER_ERROR(ErrorCode.OPERATION_ERROR.getCode(), "Failed to disable user."),
+  AUTH_INVALID_TOKEN_ERROR(ErrorCode.UNAUTHORIZED_ERROR.getCode(),
+                           "Your authentication token is invalid. Please login again."),
+  AUTH_NO_PERMISSION_ERROR(ErrorCode.FORBIDDEN_ERROR.getCode(),
+                           "You do not have permission to access this resource.");
 
   /**
    * Error code

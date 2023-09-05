@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * JWT utils
@@ -28,11 +29,12 @@ public class JwtUtils {
   /**
    * Generate JWT token
    *
+   * @param id       user id
    * @param username username
    * @param role     role
    * @return JWT token
    */
-  public static String generateToken(String username, String role) {
+  public static String generateToken(Long id, String username, String role) {
     GlobalBouncyCastleProvider.setUseBouncyCastle(false);
     DateTime nowTime = DateTime.now();
     DateTime expireTime = nowTime.offsetNew(DateField.HOUR, 72); // 3 days
@@ -45,6 +47,7 @@ public class JwtUtils {
     // Effective time
     payload.put(RegisteredPayload.NOT_BEFORE, nowTime);
     // Custom payload
+    payload.put("id", id);
     payload.put("username", username);
     payload.put("role", role);
 
@@ -82,5 +85,19 @@ public class JwtUtils {
     payloads.remove(RegisteredPayload.NOT_BEFORE);
     log.info("Token payloads: {}", payloads);
     return payloads;
+  }
+
+  /**
+   * Get JWT token from http request authorization header
+   *
+   * @param request http request
+   * @return JWT token
+   */
+  public static String getJwtFromAuthorizationHeader(HttpServletRequest request) {
+    String authorizationHeader = request.getHeader("Authorization");
+    if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+      return authorizationHeader.substring(7);
+    }
+    return null;
   }
 }

@@ -1,12 +1,13 @@
 package com.glenncai.openbiplatform.user.service.impl;
 
-import static com.glenncai.openbiplatform.common.constant.UserConstant.LOGIN_USER_STAGE;
 import static com.glenncai.openbiplatform.common.utils.NetUtils.getClientIpAddress;
 import static com.glenncai.openbiplatform.common.utils.UserUtils.encryptPassword;
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.glenncai.openbiplatform.common.exception.BusinessException;
 import com.glenncai.openbiplatform.common.exception.enums.AuthExceptionEnum;
 import com.glenncai.openbiplatform.common.model.dto.InitIpReq;
+import com.glenncai.openbiplatform.common.utils.JwtUtils;
 import com.glenncai.openbiplatform.user.feign.IpFeign;
 import com.glenncai.openbiplatform.user.mapper.UserMapper;
 import com.glenncai.openbiplatform.user.model.dto.CheckUserExistReq;
@@ -116,10 +117,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
    *
    * @param userLoginReq user login request body
    * @param request      http request
-   * @return filtered user info
+   * @return JWT token
    */
   @Override
-  public LoginUserVO login(UserLoginReq userLoginReq, HttpServletRequest request) {
+  public String login(UserLoginReq userLoginReq, HttpServletRequest request) {
     String username = userLoginReq.getUsername();
     String password = userLoginReq.getPassword();
     String clientIp = getClientIpAddress(request);
@@ -173,38 +174,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     initIpReq.setIp(clientIp);
     ipFeign.initIp(initIpReq);
 
-    // Save user info to session after login successfully
-    log.info("Client IP: {}, Username: {}, Success message: Login successfully", clientIp,
-             username);
-    request.getSession().setAttribute(LOGIN_USER_STAGE, user);
-    return getLoginUserVO(user);
-  }
-
-  /**
-   * User logout
-   *
-   * @param request http request
-   * @return true if logout successfully
-   */
-  @Override
-  public boolean logout(HttpServletRequest request) {
-    if (request == null) {
-      log.error("Error message: Empty http request");
-      throw new BusinessException(AuthExceptionEnum.AUTH_EMPTY_HTTP_REQUEST_ERROR.getCode(),
-                                  AuthExceptionEnum.AUTH_EMPTY_HTTP_REQUEST_ERROR.getMessage());
-    }
-
-    String clientIp = getClientIpAddress(request);
-
-    if (request.getSession().getAttribute(LOGIN_USER_STAGE) == null) {
-      log.error("Client IP: {}, Error message: No login user info in session", clientIp);
-      throw new BusinessException(AuthExceptionEnum.AUTH_OPERATION_ERROR.getCode(),
-                                  AuthExceptionEnum.AUTH_OPERATION_ERROR.getMessage());
-    }
-
-    // Remove user info from session
-    request.getSession().removeAttribute(LOGIN_USER_STAGE);
-    return true;
+    // Generate JWT token and return
+    String token = JwtUtils.generateToken(user.getId(), user.getUsername(), user.getRole());
+    log.info("Client IP: {}, Username: {}, Token: {}, Success message: Login successfully",
+             clientIp,
+             username,
+             token);
+    return token;
   }
 
   /**
@@ -232,15 +208,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
   @Override
   public LoginUserVO getCurrentLoginUserInfo(HttpServletRequest request) {
     String clientIp = getClientIpAddress(request);
-    Object userObj = request.getSession().getAttribute(LOGIN_USER_STAGE);
-    User currentUser = (User) userObj;
-    if (currentUser == null || currentUser.getId() == null) {
-      log.error("Client IP: {}, Error message: No login user info in session", clientIp);
-      throw new BusinessException(AuthExceptionEnum.AUTH_NOT_LOGIN_ERROR.getCode(),
-                                  AuthExceptionEnum.AUTH_NOT_LOGIN_ERROR.getMessage());
-    }
-    long userId = currentUser.getId();
-    currentUser = this.getById(userId);
+    String token = JwtUtils.getJwtFromAuthorizationHeader(request);
+
+    JSONObject payload = JwtUtils.getFilteredPayloads(token);
+    Long userId = payload.getLong("id");
+
+    User currentUser = this.getById(userId);
     if (currentUser == null) {
       log.error("Client IP: {}, Error message: No {} user info in database", clientIp, userId);
       throw new BusinessException(AuthExceptionEnum.AUTH_NOT_LOGIN_ERROR.getCode(),

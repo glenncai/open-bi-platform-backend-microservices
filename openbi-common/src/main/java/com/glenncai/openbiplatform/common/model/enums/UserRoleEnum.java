@@ -1,8 +1,6 @@
-package com.glenncai.openbiplatform.model.enums;
+package com.glenncai.openbiplatform.common.model.enums;
 
-import static com.glenncai.openbiplatform.constant.UserConstant.ADMIN_ROLE;
-import static com.glenncai.openbiplatform.constant.UserConstant.BAN_ROLE;
-import static com.glenncai.openbiplatform.constant.UserConstant.DEFAULT_ROLE;
+import com.glenncai.openbiplatform.common.constant.UserConstant;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,13 +9,12 @@ import java.util.List;
  * User role enum
  *
  * @author Glenn Cai
- * @version 1.0 07/23/2023
+ * @version 1.0 23/07/2023
  */
 public enum UserRoleEnum {
 
-  USER("User", DEFAULT_ROLE),
-  ADMIN("Administrator", ADMIN_ROLE),
-  BAN("Ban", BAN_ROLE);
+  USER("User", UserConstant.DEFAULT_ROLE),
+  ADMIN("Administrator", UserConstant.ADMIN_ROLE);
 
   private final String text;
   private final String value;

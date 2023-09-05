@@ -36,15 +36,7 @@ public interface UserService extends IService<User> {
    * @param request      http request
    * @return filtered user info
    */
-  LoginUserVO login(UserLoginReq userLoginReq, HttpServletRequest request);
-
-  /**
-   * User logout
-   *
-   * @param request http request
-   * @return true if logout successfully
-   */
-  boolean logout(HttpServletRequest request);
+  String login(UserLoginReq userLoginReq, HttpServletRequest request);
 
   /**
    * Get login user's filtered info

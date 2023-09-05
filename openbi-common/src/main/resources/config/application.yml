@@ -1,16 +1,7 @@
 spring:
-  cloud:
-    loadbalancer:
-      cache:
-        enabled: true
-        caffeine:
-          spec: initialCapacity=100,maximumSize=500,expireAfterAccess=600s,expireAfterWrite=600s
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-  session:
-    timeout: 259200 # 3 days
-    store-type: redis # Distributed session storage
   servlet:
     multipart:
       max-file-size: 1MB

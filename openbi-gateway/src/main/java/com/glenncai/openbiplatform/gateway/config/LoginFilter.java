@@ -30,7 +30,7 @@ public class LoginFilter implements Ordered, GlobalFilter {
       log.info("Path: {}, need to verify", path);
     }
 
-    return null;
+    return chain.filter(exchange);
   }
 
   /**
