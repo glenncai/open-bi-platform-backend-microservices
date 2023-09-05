@@ -42,6 +42,8 @@
     <redisson.version>3.23.2</redisson.version>
     <rabbitmq-client.version>5.18.0</rabbitmq-client.version>
     <caffeine.version>3.1.8</caffeine.version>
+    <redis-reactive.version>3.1.3</redis-reactive.version>
+    <circuitbreaker-reactor-resilience4j.version>2.1.7</circuitbreaker-reactor-resilience4j.version>
   </properties>
 
   <dependencyManagement>
@@ -152,6 +154,20 @@
         <groupId>com.github.ben-manes.caffeine</groupId>
         <artifactId>caffeine</artifactId>
         <version>${caffeine.version}</version>
+      </dependency>
+
+      <!-- Redis Reactive -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        <version>${redis-reactive.version}</version>
+      </dependency>
+
+      <!-- Resilience4j -->
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
+        <version>${circuitbreaker-reactor-resilience4j.version}</version>
       </dependency>
     </dependencies>
 

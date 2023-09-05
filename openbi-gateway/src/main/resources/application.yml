@@ -3,6 +3,12 @@ spring:
     name: OPEN-BI-GATEWAY
   config:
     import: configserver:http://localhost:8080
+  redis:
+    database: 1
+    host: localhost
+    port: 6379
+    timeout: 10s
+    password: test123456!
   cloud:
     gateway:
       globalcors:
@@ -18,18 +24,42 @@ spring:
           uri: lb://OPEN-BI-USER-SERVICE
           predicates:
             - Path=/api/user/**
+          filters:
+            - name: GatewayRequestRateLimiter # Custom rate limiter
+              args:
+                redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
+                redis-rate-limiter.burstCapacity: 1 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
+                key-resolver: "#{@ipKeyResolver}" # SpEL expression
         - id: OPEN-BI-IP-SERVICE
           uri: lb://OPEN-BI-IP-SERVICE
           predicates:
             - Path=/api/ip/**
+          filters:
+            - name: GatewayRequestRateLimiter # Custom rate limiter
+              args:
+                redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
+                redis-rate-limiter.burstCapacity: 1 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
+                key-resolver: "#{@ipKeyResolver}" # SpEL expression
         - id: OPEN-BI-AI-KEY-SERVICE
           uri: lb://OPEN-BI-AI-KEY-SERVICE
           predicates:
             - Path=/api/aikey/**
+          filters:
+            - name: GatewayRequestRateLimiter # Custom rate limiter
+              args:
+                redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
+                redis-rate-limiter.burstCapacity: 1 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
+                key-resolver: "#{@ipKeyResolver}" # SpEL expression
         - id: OPEN-BI-AI-ANALYTICS-SERVICE
           uri: lb://OPEN-BI-AI-ANALYTICS-SERVICE
           predicates:
             - Path=/api/aianalytics/**
+          filters:
+            - name: GatewayRequestRateLimiter # Custom rate limiter
+              args:
+                redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
+                redis-rate-limiter.burstCapacity: 1 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
+                key-resolver: "#{@ipKeyResolver}" # SpEL expression
 server:
   port: 8000
 logging:
