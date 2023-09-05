@@ -8,6 +8,7 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -38,16 +39,14 @@ public class CheckLoginFilter implements Ordered, GlobalFilter {
     // Check if token exists in Authorization header
     if (CharSequenceUtil.isBlank(token)) {
       log.info("No token found in Authorization header");
-      exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-      return exchange.getResponse().setComplete();
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
     }
 
     // Validate token
     boolean isValid = JwtUtils.validateToken(token);
     if (!isValid) {
       log.info("Token is invalid or expired. Token: {}", token);
-      exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-      return exchange.getResponse().setComplete();
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
     }
 
     return chain.filter(exchange);
