@@ -6,7 +6,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "username": "user",
+  "username": "user1",
   "password": "test123456!",
   "confirmPassword": "test123456!"
 }
@@ -19,7 +19,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "username": "user",
+  "username": "user1",
   "password": "test123456!"
 }
 
