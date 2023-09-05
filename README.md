@@ -20,3 +20,8 @@ of manual data analysis.
   <source media="(prefers-color-scheme: light)" srcset="assets/images/open-bi-platform-architecture-dark.svg">
   <img src="assets/images/open-bi-platform-architecture-white.png" alt="Architecture">
 </picture>
+
+## License
+
+Licensed under
+the [Apache-2.0 license](https://github.com/glenncai/open-bi-platform-backend-microservices/blob/main/LICENSE).
