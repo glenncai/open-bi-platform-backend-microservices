@@ -19,16 +19,9 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "username": "admin",
+  "username": "user",
   "password": "test123456!"
 }
-
-###
-
-### User logout
-POST http://localhost:8000/api/user/logout
-Accept: application/json
-Content-Type: application/json
 
 ###
 
@@ -36,6 +29,7 @@ Content-Type: application/json
 POST http://localhost:8000/api/user/get/login
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 ###
 
@@ -43,9 +37,10 @@ Content-Type: application/json
 POST http://localhost:8000/api/user/add
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
-  "username": "admin2",
+  "username": "admin",
   "password": "test123456!",
   "role": "admin"
 }
@@ -56,6 +51,7 @@ Content-Type: application/json
 POST http://localhost:8000/api/user/disable
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "username": "user"
@@ -67,6 +63,7 @@ Content-Type: application/json
 POST http://localhost:8000/api/user/enable
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "username": "user"
