@@ -2,6 +2,9 @@
 # @author Glenn Cai
 # @date 2023-07-18
 
+-- Drop database if exists
+DROP DATABASE IF EXISTS `bi`;
+
 -- Create database if not exists
 CREATE DATABASE IF NOT EXISTS `bi` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -14,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `t_user`
     `id`         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Primary key',
     `username`   VARCHAR(256)    NOT NULL COMMENT 'Username',
     `password`   VARCHAR(512)    NOT NULL COMMENT 'Password',
-    `role`       VARCHAR(256)    NOT NULL DEFAULT 'user' COMMENT 'user / admin / ban',
+    `role`       VARCHAR(256)    NOT NULL DEFAULT 'user' COMMENT 'user / admin',
     `login_ip`   VARCHAR(256)    NOT NULL DEFAULT '' COMMENT 'Login IP',
     `valid`      TINYINT         NOT NULL DEFAULT 1 COMMENT '0: invalid, 1: valid',
     `created_at` DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Created time',
