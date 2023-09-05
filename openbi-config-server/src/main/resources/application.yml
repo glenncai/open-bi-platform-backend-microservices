@@ -7,6 +7,11 @@ spring:
         git:
           uri: https://github.com/glenncai/open-bi-platform-config
           clone-on-start: true
+    loadbalancer:
+      cache:
+        enabled: true
+        caffeine:
+          spec: initialCapacity=100,maximumSize=500,expireAfterAccess=600s,expireAfterWrite=600s
 server:
   port: 8080
 eureka:

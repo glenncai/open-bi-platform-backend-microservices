@@ -1,6 +1,12 @@
 spring:
   application:
     name: OPEN-BI-SERVICE-REGISTRY
+  cloud:
+    loadbalancer:
+      cache:
+        enabled: true
+        caffeine:
+          spec: initialCapacity=100,maximumSize=500,expireAfterAccess=600s,expireAfterWrite=600s
 server:
   port: 8761
 eureka:

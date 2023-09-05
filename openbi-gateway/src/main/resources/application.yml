@@ -4,11 +4,6 @@ spring:
   config:
     import: configserver:http://localhost:8080
   cloud:
-    loadbalancer:
-      cache:
-        enabled: true
-        caffeine:
-          spec: initialCapacity=100,maximumSize=500,expireAfterAccess=600s,expireAfterWrite=600s
     gateway:
       globalcors:
         cors-configurations:
