@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Auth check annotation
+ * Authorization annotation
  *
  * @author Glenn Cai
  * @version 1.0 03/09/2023
@@ -16,9 +16,16 @@ import java.lang.annotation.Target;
 public @interface PreAuthorize {
 
   /**
-   * Role allowed to access
+   * Any role allowed
    *
-   * @return role allowed
+   * @return role list
    */
-  String roleAllowed() default "";
+  String[] anyRole() default "";
+
+  /**
+   * Must role allowed
+   *
+   * @return role list
+   */
+  String mustRole() default "";
 }
