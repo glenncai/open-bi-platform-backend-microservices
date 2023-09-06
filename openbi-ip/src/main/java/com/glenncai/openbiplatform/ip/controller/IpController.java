@@ -4,6 +4,7 @@ import com.glenncai.openbiplatform.common.annotation.PreAuthorize;
 import com.glenncai.openbiplatform.common.constant.UserConstant;
 import com.glenncai.openbiplatform.ip.model.dto.CheckQuotaReq;
 import com.glenncai.openbiplatform.ip.model.dto.GetIpInfoReq;
+import com.glenncai.openbiplatform.ip.model.dto.IncreaseCallQuotaReq;
 import com.glenncai.openbiplatform.ip.model.dto.InitIpReq;
 import com.glenncai.openbiplatform.ip.model.dto.ReduceCallQuotaReq;
 import com.glenncai.openbiplatform.ip.model.entity.Ip;
@@ -77,5 +78,16 @@ public class IpController {
   @PreAuthorize(anyRole = {UserConstant.DEFAULT_ROLE, UserConstant.ADMIN_ROLE})
   public void reduceCallQuota(@RequestBody ReduceCallQuotaReq reduceCallQuotaReq) {
     ipService.reduceCallQuota(reduceCallQuotaReq);
+  }
+
+  /**
+   * Increase call quota by 1 for the user
+   *
+   * @param increaseCallQuotaReq increase call quota request body
+   */
+  @PostMapping("/quota/increase")
+  @PreAuthorize(anyRole = {UserConstant.DEFAULT_ROLE, UserConstant.ADMIN_ROLE})
+  public void increaseCallQuota(@RequestBody IncreaseCallQuotaReq increaseCallQuotaReq) {
+    ipService.increaseCallQuota(increaseCallQuotaReq);
   }
 }

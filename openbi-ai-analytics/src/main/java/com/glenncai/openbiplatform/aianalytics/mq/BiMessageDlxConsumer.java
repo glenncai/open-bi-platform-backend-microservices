@@ -1,7 +1,9 @@
 package com.glenncai.openbiplatform.aianalytics.mq;
 
+import cn.hutool.json.JSONUtil;
 import com.glenncai.openbiplatform.aianalytics.constant.BiMqConstant;
 import com.glenncai.openbiplatform.aianalytics.constant.ChartConstant;
+import com.glenncai.openbiplatform.aianalytics.feign.IpFeign;
 import com.glenncai.openbiplatform.aianalytics.mapper.AiManager;
 import com.glenncai.openbiplatform.aianalytics.model.dto.ChartUpdateStatusRequest;
 import com.glenncai.openbiplatform.aianalytics.model.dto.ChatRequest;
@@ -12,6 +14,7 @@ import com.glenncai.openbiplatform.common.constant.AiConstant;
 import com.glenncai.openbiplatform.common.exception.BusinessException;
 import com.glenncai.openbiplatform.common.exception.enums.AiExceptionEnum;
 import com.glenncai.openbiplatform.common.exception.enums.MqExceptionEnum;
+import com.glenncai.openbiplatform.common.model.dto.IncreaseCallQuotaReq;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +40,9 @@ public class BiMessageDlxConsumer {
   private ChartService chartService;
 
   @Resource
+  private IpFeign ipFeign;
+
+  @Resource
   private AiManager aiManager;
 
   @RabbitListener(queues = {BiMqConstant.BI_DLX_USER_QUEUE_NAME,
@@ -48,15 +54,22 @@ public class BiMessageDlxConsumer {
     // Receive message from dead letter queue
     log.warn("RabbitMQ received message from dead letter queue: {}", message);
 
-    if (StringUtils.isBlank(message)) {
+    // Parse the message from json string
+    long chartId = JSONUtil.parseObj(message).getLong(BiMqConstant.BI_MQ_MESSAGE_CHART_ID_KEY);
+    long userId = JSONUtil.parseObj(message).getLong(BiMqConstant.BI_MQ_MESSAGE_USER_ID_KEY);
+
+    IncreaseCallQuotaReq increaseCallQuotaReq = new IncreaseCallQuotaReq();
+    increaseCallQuotaReq.setUserId(userId);
+
+    if (StringUtils.isAnyBlank(String.valueOf(chartId), String.valueOf(userId))) {
       // Reject message when message is empty
+      log.error("RabbitMQ received message from dead letter queue is empty: {}", message);
+      ipFeign.increaseCallQuota(increaseCallQuotaReq);
       channel.basicNack(deliveryTag, false, false);
       throw new BusinessException(MqExceptionEnum.MQ_MESSAGE_EMPTY_ERROR.getCode(),
                                   MqExceptionEnum.MQ_MESSAGE_EMPTY_ERROR.getMessage());
     }
 
-    // Get the corresponding chart id from the message
-    long chartId = Long.parseLong(message);
     // Get the chart data
     Chart chart = chartService.getById(chartId);
     ChatRequest chatRequest = new ChatRequest();
@@ -64,6 +77,8 @@ public class BiMessageDlxConsumer {
 
     // If the chart data is empty, reject the message
     if (chart == null) {
+      log.error("No chart data found in database, chart id: {}", chartId);
+      ipFeign.increaseCallQuota(increaseCallQuotaReq);
       channel.basicNack(deliveryTag, false, false);
       throw new BusinessException(MqExceptionEnum.MQ_CHART_DATA_EMPTY_ERROR.getCode(),
                                   MqExceptionEnum.MQ_CHART_DATA_EMPTY_ERROR.getMessage());
@@ -76,6 +91,8 @@ public class BiMessageDlxConsumer {
     boolean updateChartRunningResult = chartService.updateById(updateChartRunning);
     if (!updateChartRunningResult) {
       // If update failed, reject the message
+      log.error("Update chart status to running failed, chart id: {}", chartId);
+      ipFeign.increaseCallQuota(increaseCallQuotaReq);
       channel.basicNack(deliveryTag, false, false);
       chartUpdateStatusRequest.setId(chartId);
       chartUpdateStatusRequest.setStatus(ChartStatusEnum.FAILED);
@@ -92,6 +109,8 @@ public class BiMessageDlxConsumer {
 
     if (splitChartResult.length < ChartConstant.CHART_CONCLUSION_SPLIT_LENGTH) {
       // If the result split length is not valid, reject the message
+      log.error("AI service response format error, chart id: {}", chartId);
+      ipFeign.increaseCallQuota(increaseCallQuotaReq);
       channel.basicNack(deliveryTag, false, false);
       throw new BusinessException(AiExceptionEnum.AI_RESPONSE_FORMAT_ERROR.getCode(),
                                   AiExceptionEnum.AI_RESPONSE_FORMAT_ERROR.getMessage());
@@ -109,6 +128,8 @@ public class BiMessageDlxConsumer {
     boolean updateSucceedChartResult = chartService.updateById(updateSucceedChart);
     if (!updateSucceedChartResult) {
       // If update failed, reject the message
+      log.error("Update chart status to succeed failed, chart id: {}", chartId);
+      ipFeign.increaseCallQuota(increaseCallQuotaReq);
       channel.basicNack(deliveryTag, false, false);
       chartUpdateStatusRequest.setId(chart.getId());
       chartUpdateStatusRequest.setStatus(ChartStatusEnum.FAILED);

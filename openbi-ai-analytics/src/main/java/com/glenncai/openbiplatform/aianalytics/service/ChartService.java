@@ -1,7 +1,12 @@
 package com.glenncai.openbiplatform.aianalytics.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.glenncai.openbiplatform.aianalytics.model.dto.ChartGenByAiRequest;
+import com.glenncai.openbiplatform.aianalytics.model.dto.ChartUpdateStatusRequest;
 import com.glenncai.openbiplatform.aianalytics.model.entity.Chart;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Chart service
@@ -11,4 +16,20 @@ import com.glenncai.openbiplatform.aianalytics.model.entity.Chart;
  */
 public interface ChartService extends IService<Chart> {
 
+  /**
+   * Generate chart by AI asynchronously (RabbitMQ)
+   *
+   * @param multipartFile       multipart file
+   * @param chartGenByAiRequest chart gen by ai request body
+   * @param request             http request
+   */
+  void genChartByAiAsyncMq(MultipartFile multipartFile, ChartGenByAiRequest chartGenByAiRequest,
+                           HttpServletRequest request);
+
+  /**
+   * Updates chart status
+   *
+   * @param chartUpdateStatusRequest chart update status request body
+   */
+  void updateChartStatus(ChartUpdateStatusRequest chartUpdateStatusRequest);
 }

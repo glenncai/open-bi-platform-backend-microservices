@@ -10,6 +10,7 @@ import com.glenncai.openbiplatform.ip.feign.UserFeign;
 import com.glenncai.openbiplatform.ip.mapper.IpMapper;
 import com.glenncai.openbiplatform.ip.model.dto.CheckQuotaReq;
 import com.glenncai.openbiplatform.ip.model.dto.GetIpInfoReq;
+import com.glenncai.openbiplatform.ip.model.dto.IncreaseCallQuotaReq;
 import com.glenncai.openbiplatform.ip.model.dto.InitIpReq;
 import com.glenncai.openbiplatform.ip.model.dto.ReduceCallQuotaReq;
 import com.glenncai.openbiplatform.ip.model.entity.Ip;
@@ -129,6 +130,34 @@ public class IpServiceImpl extends ServiceImpl<IpMapper, Ip>
     // Reduce remaining quota by 1
     int remainingQuota = ip.getRemainingQuota();
     ip.setRemainingQuota(remainingQuota - 1);
+
+    // Update last call date
+    ip.setLastCallDate(new Date());
+
+    boolean updateIpResult = this.updateById(ip);
+    if (!updateIpResult) {
+      log.error("Update t_ip table failed, try to update the data: {}", ip);
+      throw new BusinessException(IpExceptionEnum.IP_UPDATE_ERROR.getCode(),
+                                  IpExceptionEnum.IP_UPDATE_ERROR.getMessage());
+    }
+  }
+
+  /**
+   * Increase call quota by 1 for the user
+   *
+   * @param increaseCallQuotaReq increase call quota request body
+   */
+  @Override
+  public void increaseCallQuota(IncreaseCallQuotaReq increaseCallQuotaReq) {
+    long userId = increaseCallQuotaReq.getUserId();
+
+    GetIpInfoReq getIpInfoReq = new GetIpInfoReq();
+    getIpInfoReq.setUserId(userId);
+    Ip ip = getIpInfoByUserId(getIpInfoReq);
+
+    // Increase remaining quota by 1
+    int remainingQuota = ip.getRemainingQuota();
+    ip.setRemainingQuota(remainingQuota + 1);
 
     // Update last call date
     ip.setLastCallDate(new Date());

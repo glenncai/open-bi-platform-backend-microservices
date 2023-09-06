@@ -19,7 +19,7 @@ public enum ChartExceptionEnum {
   CHART_FILE_SIZE_ERROR(ErrorCode.PARAM_ERROR.getCode(), "The maximum file size is 1MB."),
   CHART_FILE_EXTENSION_ERROR(ErrorCode.PARAM_ERROR.getCode(),
                              "Only support xls, xlsx and csv file."),
-  CHART_SAVE_ERROR(ErrorCode.SERVER_ERROR.getCode(), ErrorCode.SERVER_ERROR.getMessage()),
+  CHART_SAVE_ERROR(ErrorCode.OPERATION_ERROR.getCode(), "Failed to save chart."),
   CHART_AI_THREAD_POOL_FULL_ERROR(ErrorCode.OPERATION_ERROR.getCode(),
                                   "System is busy, please try again later.");
 

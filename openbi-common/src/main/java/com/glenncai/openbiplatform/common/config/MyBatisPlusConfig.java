@@ -14,7 +14,13 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0 26/07/2023
  */
 @Configuration
-@MapperScan("com.glenncai.openbiplatform.*.mapper")
+@MapperScan(
+    basePackages = {
+        "com.glenncai.openbiplatform.user.mapper",
+        "com.glenncai.openbiplatform.ip.mapper",
+        "com.glenncai.openbiplatform.aikey.mapper",
+        "com.glenncai.openbiplatform.aianalytics.mapper"
+    })
 public class MyBatisPlusConfig {
 
   /**

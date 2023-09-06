@@ -1,6 +1,7 @@
 package com.glenncai.openbiplatform.aianalytics.feign;
 
 import com.glenncai.openbiplatform.common.model.dto.CheckQuotaReq;
+import com.glenncai.openbiplatform.common.model.dto.IncreaseCallQuotaReq;
 import com.glenncai.openbiplatform.common.model.dto.ReduceCallQuotaReq;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,4 +31,12 @@ public interface IpFeign {
    */
   @PostMapping("/quota/reduce")
   void reduceCallQuota(@RequestBody ReduceCallQuotaReq reduceCallQuotaReq);
+
+  /**
+   * Increase call quota by 1 for the user
+   *
+   * @param increaseCallQuotaReq increase call quota request body
+   */
+  @PostMapping("/quota/increase")
+  void increaseCallQuota(IncreaseCallQuotaReq increaseCallQuotaReq);
 }

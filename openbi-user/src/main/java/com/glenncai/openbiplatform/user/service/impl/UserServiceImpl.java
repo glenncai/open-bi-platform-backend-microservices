@@ -228,7 +228,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     String token = JwtUtils.getJwtFromAuthorizationHeader(request);
 
     JSONObject payload = JwtUtils.getFilteredPayloads(token);
-    Long userId = payload.getLong("id");
+    long userId = payload.getLong("id");
 
     User currentUser = this.getById(userId);
     if (currentUser == null) {

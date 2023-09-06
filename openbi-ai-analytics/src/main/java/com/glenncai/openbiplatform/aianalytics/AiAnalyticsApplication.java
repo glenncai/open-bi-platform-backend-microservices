@@ -5,6 +5,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @MapperScan("com.glenncai.openbiplatform.aianalytics.mapper")
 @ComponentScan("com.glenncai.openbiplatform") // scan all packages like common module
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
+@EnableFeignClients(basePackages = {"com.glenncai.openbiplatform.aianalytics.feign"})
 @EnableEurekaClient
 @Slf4j
 public class AiAnalyticsApplication {
