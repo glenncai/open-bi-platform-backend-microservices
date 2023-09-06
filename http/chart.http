@@ -1,0 +1,31 @@
+### AI Analytics Service API
+
+### Generate chart
+POST http://localhost:8000/api/chart/gen
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+Authorization: Bearer {{auth_token}}
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="sample_excel.xls"
+Content-Type: application/vnd.ms-excel
+
+// The 'sample_excel.xls' file will be uploaded
+< ../sample/sample_excel.xls
+--WebAppBoundary
+Content-Disposition: form-data; name="chartType"
+
+// The chart type
+line
+--WebAppBoundary
+Content-Disposition: form-data; name="name"
+
+// The chart name
+User Growth
+--WebAppBoundary
+Content-Disposition: form-data; name="goal"
+
+// The chart goal
+Analyze website user growth
+--WebAppBoundary
+
+###
