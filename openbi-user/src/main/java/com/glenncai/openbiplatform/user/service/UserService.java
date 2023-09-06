@@ -9,6 +9,7 @@ import com.glenncai.openbiplatform.user.model.dto.UserLoginReq;
 import com.glenncai.openbiplatform.user.model.dto.UserRegisterReq;
 import com.glenncai.openbiplatform.user.model.entity.User;
 import com.glenncai.openbiplatform.user.model.vo.LoginUserVO;
+import com.glenncai.openbiplatform.user.model.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,9 +43,17 @@ public interface UserService extends IService<User> {
    * Get login user's filtered info
    *
    * @param user user entity
-   * @return filtered user info
+   * @return filtered login user info
    */
   LoginUserVO getLoginUserVO(User user);
+
+  /**
+   * Get user's filtered info
+   *
+   * @param user user entity
+   * @return filtered user info
+   */
+  UserVO getUserVO(User user);
 
   /**
    * Get current login user filtered info
@@ -85,4 +94,12 @@ public interface UserService extends IService<User> {
    * @param request       http request
    */
   void enableUser(UserEnableReq userEnableReq, HttpServletRequest request);
+
+  /**
+   * Get user info by user id
+   *
+   * @param userId user id
+   * @return user filtered info
+   */
+  UserVO getUserInfoByUserId(Long userId);
 }

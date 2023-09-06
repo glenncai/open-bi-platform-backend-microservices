@@ -18,6 +18,7 @@ import com.glenncai.openbiplatform.user.model.dto.UserLoginReq;
 import com.glenncai.openbiplatform.user.model.dto.UserRegisterReq;
 import com.glenncai.openbiplatform.user.model.entity.User;
 import com.glenncai.openbiplatform.user.model.vo.LoginUserVO;
+import com.glenncai.openbiplatform.user.model.vo.UserVO;
 import com.glenncai.openbiplatform.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -187,7 +188,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
    * Get login user's filtered info
    *
    * @param user user entity
-   * @return filtered user info
+   * @return filtered login user info
    */
   @Override
   public LoginUserVO getLoginUserVO(User user) {
@@ -197,6 +198,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     LoginUserVO loginUserVO = new LoginUserVO();
     BeanUtils.copyProperties(user, loginUserVO);
     return loginUserVO;
+  }
+
+  /**
+   * Get user's filtered info
+   *
+   * @param user user entity
+   * @return filtered user info
+   */
+  @Override
+  public UserVO getUserVO(User user) {
+    if (user == null) {
+      return null;
+    }
+    UserVO userVO = new UserVO();
+    BeanUtils.copyProperties(user, userVO);
+    return userVO;
   }
 
   /**
@@ -348,6 +365,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                                   AuthExceptionEnum.AUTH_USER_NOT_EXIST_ERROR.getMessage());
     }
     userMapper.enableUser(user.getId());
+  }
+
+  /**
+   * Get user info by user id
+   *
+   * @param userId user id
+   * @return user filtered info
+   */
+  @Override
+  public UserVO getUserInfoByUserId(Long userId) {
+    User user = userMapper.selectById(userId);
+    if (user == null) {
+      throw new BusinessException(AuthExceptionEnum.AUTH_USER_NOT_EXIST_ERROR.getCode(),
+                                  AuthExceptionEnum.AUTH_USER_NOT_EXIST_ERROR.getMessage());
+    }
+    return getUserVO(user);
   }
 }
 

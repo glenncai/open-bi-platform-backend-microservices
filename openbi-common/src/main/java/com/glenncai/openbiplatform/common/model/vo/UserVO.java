@@ -1,4 +1,4 @@
-package com.glenncai.openbiplatform.user.model.vo;
+package com.glenncai.openbiplatform.common.model.vo;
 
 import lombok.Data;
 

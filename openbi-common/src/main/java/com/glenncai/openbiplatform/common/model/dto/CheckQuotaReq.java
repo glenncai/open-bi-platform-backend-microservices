@@ -1,4 +1,4 @@
-package com.glenncai.openbiplatform.ip.model.dto;
+package com.glenncai.openbiplatform.common.model.dto;
 
 import lombok.Data;
 

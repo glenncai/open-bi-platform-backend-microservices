@@ -10,8 +10,11 @@ import com.glenncai.openbiplatform.user.model.dto.UserEnableReq;
 import com.glenncai.openbiplatform.user.model.dto.UserLoginReq;
 import com.glenncai.openbiplatform.user.model.dto.UserRegisterReq;
 import com.glenncai.openbiplatform.user.model.vo.LoginUserVO;
+import com.glenncai.openbiplatform.user.model.vo.UserVO;
 import com.glenncai.openbiplatform.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,5 +115,17 @@ public class UserController {
   @PreAuthorize(mustRole = UserConstant.ADMIN_ROLE)
   public void enableUser(@RequestBody UserEnableReq userEnableReq, HttpServletRequest request) {
     userService.enableUser(userEnableReq, request);
+  }
+
+  /**
+   * Get user info by user id
+   *
+   * @param userId user id
+   * @return user filtered info
+   */
+  @GetMapping("/get/{userId}")
+  @PreAuthorize(anyRole = {UserConstant.DEFAULT_ROLE, UserConstant.ADMIN_ROLE})
+  public BaseResponse<UserVO> getUserInfoByUserId(@PathVariable("userId") Long userId) {
+    return BaseResult.success(userService.getUserInfoByUserId(userId));
   }
 }
