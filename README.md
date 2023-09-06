@@ -21,6 +21,8 @@ of manual data analysis.
   <img src="assets/images/open-bi-platform-architecture-white.png" alt="Architecture">
 </picture>
 
+## Workflow
+
 ## License
 
 Licensed under

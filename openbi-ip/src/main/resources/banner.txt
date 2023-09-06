@@ -21,5 +21,4 @@ ${AnsiColor.BRIGHT_YELLOW}
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        //
 //            佛祖保佑       永不宕機      永無BUG                   //
 ////////////////////////////////////////////////////////////////////
-${application.title} ${application.version}
-Powered by Spring Boot ${spring-boot.version}
+Powered by Spring Boot: ${spring-boot.version}

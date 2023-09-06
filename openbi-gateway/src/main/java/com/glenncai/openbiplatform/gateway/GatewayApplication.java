@@ -11,6 +11,7 @@ import reactor.core.publisher.Mono;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
 import java.util.Optional;
 
 @SpringBootApplication
@@ -18,12 +19,19 @@ import java.util.Optional;
 @Slf4j
 public class GatewayApplication {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws UnknownHostException {
     SpringApplication application = new SpringApplication(GatewayApplication.class);
     Environment environment = application.run(args).getEnvironment();
+    String ip = InetAddress.getLocalHost().getHostAddress();
     String serverPort = environment.getProperty("server.port");
-    log.info("Running successfully!");
-    log.info("Access URLs: http://127.0.0.1:{}", serverPort);
+    String contextPath =
+        Optional.ofNullable(environment.getProperty("server.servlet.context-path")).orElse("");
+    String applicationName = environment.getProperty("spring.application.name");
+    log.info("\n----------------------------------------------------------\n\t" +
+                 "Application " + applicationName + " is running! Access URLs:\n\t" +
+                 "Local Access URL: \t\thttp://localhost:" + serverPort + contextPath + "\n\t" +
+                 "External Access URL: \thttps://" + ip + ":" + serverPort + contextPath + "\n\t" +
+                 "----------------------------------------------------------");
   }
 
   /**
