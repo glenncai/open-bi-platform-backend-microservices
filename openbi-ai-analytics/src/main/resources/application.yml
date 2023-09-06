@@ -3,6 +3,11 @@ spring:
     name: OPEN-BI-AI-ANALYTICS-SERVICE
   config:
     import: configserver:http://localhost:8080
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 server:
   port: 8003
   address: 0.0.0.0

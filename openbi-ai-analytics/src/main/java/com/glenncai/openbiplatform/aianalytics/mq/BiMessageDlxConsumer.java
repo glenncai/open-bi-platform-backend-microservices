@@ -51,15 +51,15 @@ public class BiMessageDlxConsumer {
   public void receiveMessage(String message, Channel channel,
                              @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag)
       throws IOException {
-    // Receive message from dead letter queue
-    log.warn("RabbitMQ received message from dead letter queue: {}", message);
-
     // Parse the message from json string
     long chartId = JSONUtil.parseObj(message).getLong(BiMqConstant.BI_MQ_MESSAGE_CHART_ID_KEY);
     long userId = JSONUtil.parseObj(message).getLong(BiMqConstant.BI_MQ_MESSAGE_USER_ID_KEY);
 
     IncreaseCallQuotaReq increaseCallQuotaReq = new IncreaseCallQuotaReq();
     increaseCallQuotaReq.setUserId(userId);
+
+    // Receive message from dead letter queue
+    log.warn("BI RabbitMQ received message from dead letter queue: {}", message);
 
     if (StringUtils.isAnyBlank(String.valueOf(chartId), String.valueOf(userId))) {
       // Reject message when message is empty
@@ -70,7 +70,7 @@ public class BiMessageDlxConsumer {
                                   MqExceptionEnum.MQ_MESSAGE_EMPTY_ERROR.getMessage());
     }
 
-    // Get the chart data
+    // Get the chart data from database
     Chart chart = chartService.getById(chartId);
     ChatRequest chatRequest = new ChatRequest();
     ChartUpdateStatusRequest chartUpdateStatusRequest = new ChartUpdateStatusRequest();
@@ -102,6 +102,7 @@ public class BiMessageDlxConsumer {
     // Call AI service to generate chart
     chatRequest.setMessage(chart.getExecMessage());
     chatRequest.setKey(AiConstant.AI_API_KEY_VALUE);
+    log.info("Start to call AI service to generate chart, chart id: {}", chartId);
     String chartResult = aiManager.doAiChat(chatRequest);
 
     // Parse the result
@@ -137,6 +138,7 @@ public class BiMessageDlxConsumer {
     }
 
     // Everything is ok, ack the message
+    log.info("Chart generated successfully, chart id: {}", chartId);
     channel.basicAck(deliveryTag, false);
   }
 }

@@ -17,11 +17,6 @@ spring:
     redis:
       time-to-live: 2592000000 # 30 days
     type: redis
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
   datasource:
     url: jdbc:mysql://localhost:3306/bi?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Hong_Kong
     username: root

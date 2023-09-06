@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.glenncai.openbiplatform.aianalytics.constant.BiMqConstant;
 import com.glenncai.openbiplatform.aianalytics.constant.ChartConstant;
 import com.glenncai.openbiplatform.aianalytics.feign.IpFeign;
-import com.glenncai.openbiplatform.aianalytics.feign.UserFeign;
 import com.glenncai.openbiplatform.aianalytics.manager.RedisLimiterManager;
 import com.glenncai.openbiplatform.aianalytics.mapper.ChartMapper;
 import com.glenncai.openbiplatform.aianalytics.model.dto.ChartGenByAiRequest;
@@ -23,10 +22,10 @@ import com.glenncai.openbiplatform.common.exception.BusinessException;
 import com.glenncai.openbiplatform.common.exception.enums.ChartExceptionEnum;
 import com.glenncai.openbiplatform.common.model.dto.CheckQuotaReq;
 import com.glenncai.openbiplatform.common.model.dto.ReduceCallQuotaReq;
-import com.glenncai.openbiplatform.common.model.vo.LoginUserVO;
 import com.glenncai.openbiplatform.common.utils.ChartUtils;
 import com.glenncai.openbiplatform.common.utils.ExcelUtils;
 import com.glenncai.openbiplatform.common.utils.FileUtils;
+import com.glenncai.openbiplatform.common.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -46,9 +45,6 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
     implements ChartService {
-
-  @Resource
-  private UserFeign userFeign;
 
   @Resource
   private IpFeign ipFeign;
@@ -71,22 +67,23 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
                                   ChartGenByAiRequest chartGenByAiRequest,
                                   HttpServletRequest request) {
     String clientIp = getClientIpAddress(request);
+    String token = JwtUtils.getJwtFromAuthorizationHeader(request);
     String originalFilename = multipartFile.getOriginalFilename();
     String chartName = chartGenByAiRequest.getName();
     String chartType = chartGenByAiRequest.getChartType();
     String goal = chartGenByAiRequest.getGoal();
     ChatRequest chatRequest = new ChatRequest();
 
-    LoginUserVO currentLoginUser = userFeign.getCurrentLoginUserInfo(request).getData();
-    String currentUserRole = currentLoginUser.getRole();
+    String currentUserRole = JwtUtils.getFilteredPayloads(token).getStr("role");
+    long currentUserId = JwtUtils.getFilteredPayloads(token).getLong("id");
 
     // Rate limit for the current user in this method
     redisLimiterManager.doRateLimit(
-        AiConstant.AI_REDIS_RATE_LIMIT_PREFIX + currentLoginUser.getId());
+        AiConstant.AI_REDIS_RATE_LIMIT_PREFIX + currentUserId);
 
     // Check AI remaining quota
     CheckQuotaReq checkQuotaReq = new CheckQuotaReq();
-    checkQuotaReq.setUserId(currentLoginUser.getId());
+    checkQuotaReq.setUserId(currentUserId);
     ipFeign.checkRemainingQuota(checkQuotaReq);
 
     if (StringUtils.isBlank(goal)) {
@@ -128,7 +125,7 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
     chart.setChartType(StringUtils.isBlank(chartType) ? "auto" : chartType);
     chart.setStatus(ChartStatusEnum.WAITING.getValue());
     chart.setExecMessage(userInput.toString());
-    chart.setUserId(currentLoginUser.getId());
+    chart.setUserId(currentUserId);
     boolean saveChartWaitingResult = this.save(chart);
     if (!saveChartWaitingResult) {
       log.error("Client IP: {}, Error message: Failed to save chart waiting record",
@@ -147,13 +144,13 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
     long newChartId = chart.getId();
     JSONObject jsonObject = new JSONObject();
     jsonObject.set(BiMqConstant.BI_MQ_MESSAGE_CHART_ID_KEY, newChartId);
-    jsonObject.set(BiMqConstant.BI_MQ_MESSAGE_USER_ID_KEY, currentLoginUser.getId());
+    jsonObject.set(BiMqConstant.BI_MQ_MESSAGE_USER_ID_KEY, currentUserId);
     String message = JSONUtil.toJsonStr(jsonObject);
     biMessageProducer.sendMessage(message, routingKey);
 
     // Reduce AI remaining quota
     ReduceCallQuotaReq reduceCallQuotaReq = new ReduceCallQuotaReq();
-    reduceCallQuotaReq.setUserId(currentLoginUser.getId());
+    reduceCallQuotaReq.setUserId(currentUserId);
     ipFeign.reduceCallQuota(reduceCallQuotaReq);
   }
 

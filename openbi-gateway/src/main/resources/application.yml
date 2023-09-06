@@ -53,7 +53,7 @@ spring:
         - id: OPEN-BI-AI-ANALYTICS-SERVICE
           uri: lb://OPEN-BI-AI-ANALYTICS-SERVICE
           predicates:
-            - Path=/api/aianalytics/**
+            - Path=/api/chart/**
           filters:
             - name: GatewayRequestRateLimiter # Custom rate limiter
               args:

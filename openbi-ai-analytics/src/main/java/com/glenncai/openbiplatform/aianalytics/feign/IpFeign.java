@@ -38,5 +38,5 @@ public interface IpFeign {
    * @param increaseCallQuotaReq increase call quota request body
    */
   @PostMapping("/quota/increase")
-  void increaseCallQuota(IncreaseCallQuotaReq increaseCallQuotaReq);
+  void increaseCallQuota(@RequestBody IncreaseCallQuotaReq increaseCallQuotaReq);
 }

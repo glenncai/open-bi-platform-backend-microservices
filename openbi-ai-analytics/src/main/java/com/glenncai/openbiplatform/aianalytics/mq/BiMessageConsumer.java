@@ -1,5 +1,6 @@
 package com.glenncai.openbiplatform.aianalytics.mq;
 
+import cn.hutool.json.JSONUtil;
 import com.glenncai.openbiplatform.aianalytics.constant.BiMqConstant;
 import com.glenncai.openbiplatform.aianalytics.constant.ChartConstant;
 import com.glenncai.openbiplatform.aianalytics.mapper.AiManager;
@@ -44,16 +45,20 @@ public class BiMessageConsumer {
   public void receiveMessage(String message, Channel channel,
                              @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag)
       throws IOException {
+    // Parse the message from json string
+    long chartId = JSONUtil.parseObj(message).getLong(BiMqConstant.BI_MQ_MESSAGE_CHART_ID_KEY);
+    long userId = JSONUtil.parseObj(message).getLong(BiMqConstant.BI_MQ_MESSAGE_USER_ID_KEY);
+
     log.info("BI RabbitMQ received message: {}", message);
-    if (StringUtils.isBlank(message)) {
+
+    if (StringUtils.isAnyBlank(String.valueOf(chartId), String.valueOf(userId))) {
       // Reject message when message is empty
+      log.error("RabbitMQ received message is empty: {}", message);
       channel.basicNack(deliveryTag, false, false);
       throw new BusinessException(MqExceptionEnum.MQ_MESSAGE_EMPTY_ERROR.getCode(),
                                   MqExceptionEnum.MQ_MESSAGE_EMPTY_ERROR.getMessage());
     }
 
-    // Get the corresponding chart id from the message
-    long chartId = Long.parseLong(message);
     // Get the chart data from database
     Chart chart = chartService.getById(chartId);
     ChatRequest chatRequest = new ChatRequest();
@@ -61,6 +66,7 @@ public class BiMessageConsumer {
 
     // If the chart data is empty, reject the message
     if (chart == null) {
+      log.error("No chart data found in database, chart id: {}", chartId);
       channel.basicNack(deliveryTag, false, false);
       throw new BusinessException(MqExceptionEnum.MQ_CHART_DATA_EMPTY_ERROR.getCode(),
                                   MqExceptionEnum.MQ_CHART_DATA_EMPTY_ERROR.getMessage());
@@ -73,6 +79,7 @@ public class BiMessageConsumer {
     boolean updateChartRunningResult = chartService.updateById(updateChartRunning);
     if (!updateChartRunningResult) {
       // If update failed, reject the message
+      log.error("Update chart status to running failed, chart id: {}", chartId);
       channel.basicNack(deliveryTag, false, false);
       chartUpdateStatusRequest.setId(chartId);
       chartUpdateStatusRequest.setStatus(ChartStatusEnum.FAILED);
@@ -90,6 +97,7 @@ public class BiMessageConsumer {
 
     if (splitChartResult.length < ChartConstant.CHART_CONCLUSION_SPLIT_LENGTH) {
       // If the result split length is not valid, reject the message
+      log.error("AI service response format error, chart id: {}", chartId);
       channel.basicNack(deliveryTag, false, false);
       throw new BusinessException(AiExceptionEnum.AI_RESPONSE_FORMAT_ERROR.getCode(),
                                   AiExceptionEnum.AI_RESPONSE_FORMAT_ERROR.getMessage());
@@ -107,6 +115,7 @@ public class BiMessageConsumer {
     boolean updateSucceedChartResult = chartService.updateById(updateSucceedChart);
     if (!updateSucceedChartResult) {
       // If update failed, reject the message
+      log.error("Update chart status to succeed failed, chart id: {}", chartId);
       channel.basicNack(deliveryTag, false, false);
       chartUpdateStatusRequest.setId(chart.getId());
       chartUpdateStatusRequest.setStatus(ChartStatusEnum.FAILED);
