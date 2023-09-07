@@ -104,7 +104,8 @@ public class IpServiceImpl extends ServiceImpl<IpMapper, Ip>
    */
   @Override
   public Ip getIpInfoByUserId(GetIpInfoReq getIpInfoReq) {
-    UserVO user = userFeign.getUserInfoByUserId(getIpInfoReq.getUserId()).getData();
+    long userId = getIpInfoReq.getUserId();
+    UserVO user = userFeign.getUserInfoByUserId(userId).getData();
     String loginIp = user.getLoginIp();
     Ip ip = this.lambdaQuery().eq(Ip::getIp, loginIp).one();
     if (ip == null) {

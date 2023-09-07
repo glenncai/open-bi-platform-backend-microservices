@@ -50,7 +50,7 @@ public class IpController {
    * @param checkQuotaReq check quota request body
    */
   @PostMapping("/quota/check")
-  @PreAuthorize(anyRole = {UserConstant.DEFAULT_ROLE, UserConstant.ADMIN_ROLE})
+//  @PreAuthorize(anyRole = {UserConstant.DEFAULT_ROLE, UserConstant.ADMIN_ROLE})
   public void checkRemainingQuota(@RequestBody CheckQuotaReq checkQuotaReq) {
     ipService.checkRemainingQuota(checkQuotaReq);
   }

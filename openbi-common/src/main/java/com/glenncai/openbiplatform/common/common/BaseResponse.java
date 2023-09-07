@@ -1,6 +1,7 @@
 package com.glenncai.openbiplatform.common.common;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @version 1.0 20/07/2023
  */
 @Data
+@NoArgsConstructor
 public class BaseResponse<T> implements Serializable {
 
   @Serial
