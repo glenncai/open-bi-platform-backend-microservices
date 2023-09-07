@@ -1,4 +1,4 @@
-package com.glenncai.openbiplatform.common.utils;
+package com.glenncai.openbiplatform.aianalytics.utils;
 
 import com.glenncai.openbiplatform.common.common.ErrorCode;
 import com.glenncai.openbiplatform.common.exception.BusinessException;

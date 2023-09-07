@@ -1,4 +1,4 @@
-package com.glenncai.openbiplatform.common.utils;
+package com.glenncai.openbiplatform.aianalytics.utils;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;

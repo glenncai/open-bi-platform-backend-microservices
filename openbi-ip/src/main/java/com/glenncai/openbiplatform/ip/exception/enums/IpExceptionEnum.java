@@ -1,4 +1,4 @@
-package com.glenncai.openbiplatform.common.exception.enums;
+package com.glenncai.openbiplatform.ip.exception.enums;
 
 import com.glenncai.openbiplatform.common.common.ErrorCode;
 

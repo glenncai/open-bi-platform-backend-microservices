@@ -1,4 +1,4 @@
-package com.glenncai.openbiplatform.common.utils;
+package com.glenncai.openbiplatform.aianalytics.utils;
 
 import com.alibaba.excel.EasyExcelFactory;
 import com.alibaba.excel.support.ExcelTypeEnum;

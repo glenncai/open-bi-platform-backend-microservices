@@ -2,13 +2,13 @@ package com.glenncai.openbiplatform.aianalytics.mapper;
 
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
+import com.glenncai.openbiplatform.aianalytics.exception.enums.AiExceptionEnum;
 import com.glenncai.openbiplatform.aianalytics.model.dto.ChatRequest;
 import com.glenncai.openbiplatform.aianalytics.model.dto.ChatResponse;
+import com.glenncai.openbiplatform.aianalytics.utils.HttpUtils;
 import com.glenncai.openbiplatform.common.common.BaseResponse;
 import com.glenncai.openbiplatform.common.constant.AiConstant;
 import com.glenncai.openbiplatform.common.exception.BusinessException;
-import com.glenncai.openbiplatform.common.exception.enums.AiExceptionEnum;
-import com.glenncai.openbiplatform.common.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
