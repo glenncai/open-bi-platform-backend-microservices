@@ -30,6 +30,10 @@ spring:
                 redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
                 redis-rate-limiter.burstCapacity: 1 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
                 key-resolver: "#{@ipKeyResolver}" # SpEL expression
+            - name: CircuitBreaker
+              args:
+                name: OPEN-BI-USER-SERVICE-CIRCUIT-BREAKER
+                fallbackUri: forward:/fallback/user
         - id: OPEN-BI-IP-SERVICE
           uri: lb://OPEN-BI-IP-SERVICE
           predicates:
@@ -40,6 +44,10 @@ spring:
                 redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
                 redis-rate-limiter.burstCapacity: 1 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
                 key-resolver: "#{@ipKeyResolver}" # SpEL expression
+            - name: CircuitBreaker
+              args:
+                name: OPEN-BI-IP-SERVICE-CIRCUIT-BREAKER
+                fallbackUri: forward:/fallback/ip
         - id: OPEN-BI-AI-KEY-SERVICE
           uri: lb://OPEN-BI-AI-KEY-SERVICE
           predicates:
@@ -50,6 +58,10 @@ spring:
                 redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
                 redis-rate-limiter.burstCapacity: 1 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
                 key-resolver: "#{@ipKeyResolver}" # SpEL expression
+            - name: CircuitBreaker
+              args:
+                name: OPEN-BI-AI-KEY-SERVICE-CIRCUIT-BREAKER
+                fallbackUri: forward:/fallback/aikey
         - id: OPEN-BI-AI-ANALYTICS-SERVICE
           uri: lb://OPEN-BI-AI-ANALYTICS-SERVICE
           predicates:
@@ -60,6 +72,10 @@ spring:
                 redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
                 redis-rate-limiter.burstCapacity: 1 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
                 key-resolver: "#{@ipKeyResolver}" # SpEL expression
+            - name: CircuitBreaker
+              args:
+                name: OPEN-BI-AI-ANALYTICS-SERVICE-CIRCUIT-BREAKER
+                fallbackUri: forward:/fallback/chart
 server:
   port: 8000
 logging:

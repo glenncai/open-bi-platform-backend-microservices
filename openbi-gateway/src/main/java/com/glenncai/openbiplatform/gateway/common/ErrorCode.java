@@ -1,4 +1,4 @@
-package com.glenncai.openbiplatform.common.common;
+package com.glenncai.openbiplatform.gateway.common;
 
 /**
  * Enum for custom error code

@@ -68,7 +68,7 @@ public class GatewayRequestRateLimiterGatewayFilterFactory extends
         }
 
         DataBuffer buffer = httpResponse.bufferFactory().wrap(("{\n"
-            + "  \"code\": 429,"
+            + "  \"code\": 42900,"
             + "  \"message\": \"Too many requests in 1 second. Try again later.\","
             + "  \"data\": null,"
             + "}").getBytes(StandardCharsets.UTF_8));
