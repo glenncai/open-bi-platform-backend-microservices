@@ -23,7 +23,7 @@ public class CustomizeCircuitBreakerConfig {
   public Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer() {
     return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
         .timeLimiterConfig(
-            TimeLimiterConfig.custom().timeoutDuration(Duration.ofMillis(200)).build())
+            TimeLimiterConfig.custom().timeoutDuration(Duration.ofMillis(2000)).build())
         .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults()).build());
   }
 }
