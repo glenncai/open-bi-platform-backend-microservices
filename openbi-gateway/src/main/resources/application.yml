@@ -28,7 +28,7 @@ spring:
             - name: GatewayRequestRateLimiter # Custom rate limiter
               args:
                 redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
-                redis-rate-limiter.burstCapacity: 1 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
+                redis-rate-limiter.burstCapacity: 2 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
                 key-resolver: "#{@ipKeyResolver}" # SpEL expression
             - name: CircuitBreaker
               args:
@@ -42,7 +42,7 @@ spring:
             - name: GatewayRequestRateLimiter # Custom rate limiter
               args:
                 redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
-                redis-rate-limiter.burstCapacity: 1 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
+                redis-rate-limiter.burstCapacity: 2 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
                 key-resolver: "#{@ipKeyResolver}" # SpEL expression
             - name: CircuitBreaker
               args:
@@ -56,7 +56,7 @@ spring:
             - name: GatewayRequestRateLimiter # Custom rate limiter
               args:
                 redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
-                redis-rate-limiter.burstCapacity: 1 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
+                redis-rate-limiter.burstCapacity: 2 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
                 key-resolver: "#{@ipKeyResolver}" # SpEL expression
             - name: CircuitBreaker
               args:
@@ -70,7 +70,7 @@ spring:
             - name: GatewayRequestRateLimiter # Custom rate limiter
               args:
                 redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
-                redis-rate-limiter.burstCapacity: 1 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
+                redis-rate-limiter.burstCapacity: 2 # The capacity of the token bucket, the maximum number of requests a user allowed to process in one second
                 key-resolver: "#{@ipKeyResolver}" # SpEL expression
             - name: CircuitBreaker
               args:
