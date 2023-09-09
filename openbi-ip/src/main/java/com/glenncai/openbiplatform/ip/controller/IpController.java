@@ -39,7 +39,6 @@ public class IpController {
    * @param initIpReq init IP request body
    */
   @PostMapping("/init")
-  @PreAuthorize(anyRole = {UserConstant.DEFAULT_ROLE, UserConstant.ADMIN_ROLE})
   public void initIp(@RequestBody InitIpReq initIpReq) {
     ipService.initIp(initIpReq);
   }
