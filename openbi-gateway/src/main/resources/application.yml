@@ -15,9 +15,10 @@ spring:
         cors-configurations:
           '[/**]':
             allowCredentials: true
+            allowedOriginPatterns: '*'
             allowedHeaders: '*'
             allowedMethods: '*'
-            allowedOriginPatterns: '*'
+            exposedHeaders: '*'
             maxAge: 3600
       routes:
         - id: OPEN-BI-USER-SERVICE
@@ -25,6 +26,7 @@ spring:
           predicates:
             - Path=/api/user/**
           filters:
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST # Remove duplicate response headers
             - name: GatewayRequestRateLimiter # Custom rate limiter
               args:
                 redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
@@ -39,6 +41,7 @@ spring:
           predicates:
             - Path=/api/ip/**
           filters:
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST # Remove duplicate response headers
             - name: GatewayRequestRateLimiter # Custom rate limiter
               args:
                 redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
@@ -53,6 +56,7 @@ spring:
           predicates:
             - Path=/api/aikey/**
           filters:
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST # Remove duplicate response headers
             - name: GatewayRequestRateLimiter # Custom rate limiter
               args:
                 redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
@@ -67,6 +71,7 @@ spring:
           predicates:
             - Path=/api/chart/**
           filters:
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST # Remove duplicate response headers
             - name: GatewayRequestRateLimiter # Custom rate limiter
               args:
                 redis-rate-limiter.replenishRate: 1 # How many requests a user is allowed to process per second
