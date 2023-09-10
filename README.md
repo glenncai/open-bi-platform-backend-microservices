@@ -19,11 +19,16 @@
   <a href="#ai-analysis-workflow"><strong>AI Analysis Workflow</strong></a> · 
   <a href="#rabbitmq-workflow"><strong>RabbitMQ Workflow</strong></a> · 
   <a href="#open-ai"><strong>Open AI</strong></a> · 
-  <a href="#setting-up-locally"><strong>Setting Up Locally</strong></a> ·
   <a href="#tech-stack"><strong>Tech Stack</strong></a> ·
+  <a href="#setting-up-locally"><strong>Setting Up Locally</strong></a> ·
+  <a href="#project-overview"><strong>Project Overview</strong></a> ·
   <a href="#license"><strong>License</strong></a>
 </p>
 <br/>
+
+Check [Frontend Source Code](https://github.com/glenncai/open-bi-platform-frontend) 👀
+
+Check [Python Poe Service Source Code](https://github.com/glenncai/open-bi-platform-poe-service) 👀
 
 ## Introduction
 
@@ -167,6 +172,45 @@ Example of results returned by Open BI Platform Bot:
 <br />
 <br />
 
+## Tech Stack
+
+#### Backend
+
+* Java
+* Spring Boot
+* Spring Cloud Gateway
+* Spring Cloud Config
+* Spring Cloud Circuit Breaker
+* Spring Cloud Load Balancer
+* Spring Cloud Sleuth
+* Spring AOP
+* Spring Cache
+* Eureka
+* OpenFeign
+* RabbitMQ
+* Redis
+* MySQL
+* MyBatis-Plus
+* Zipkin
+* Docker
+
+#### Frontend
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+* Apache ECharts
+
+#### Python AI service
+
+* Python
+* Flask
+* poe-api-wrapper
+
+<br />
+<br />
+
 ## Setting Up Locally
 
 #### For Microservices Backend:
@@ -198,40 +242,43 @@ docker run -d -p 9411:9411 --name zipkin openzipkin/zipkin
 <br />
 <br />
 
-## Tech Stack
+## Project Overview
 
-#### Backend
+Many APIs have been implemented on the backend, while the frontend still does not call these APIs. The project is still
+in progress.
 
-* Java
-* Spring Boot
-* Spring Cloud Gateway
-* Spring Cloud Config
-* Spring Cloud Circuit Breaker
-* Spring Cloud Load Balancer
-* Spring Cloud Sleuth
-* Spring Cache
-* Eureka
-* OpenFeign
-* RabbitMQ
-* Redis
-* MySQL
-* MyBatis
-* Zipkin
-* Docker
+Authentication:
 
-#### Frontend
+<img src="assets/images/project-overview-login.png" alt="authentication" />
+<img src="assets/images/project-overview-register.png" alt="authentication" />
 
-* Next.js
-* React
-* TypeScript
-* Tailwind CSS
-* Apache ECharts
+Dashboard:
+<img src="assets/images/project-overview-dashboard.png" alt="dashboard" />
+<img src="assets/images/project-overview-dashboard-dark.png" alt="dashboard" />
 
-#### Python AI service
+AI Analytics:
 
-* Python
-* Flask
-* poe-api-wrapper
+<img src="assets/images/project-overview-analytics.png" alt="AI Analytics" />
+
+User Management:
+
+<img src="assets/images/project-overview-user-management.png" alt="User management" />
+
+My Account:
+
+<img src="assets/images/project-overview-myaccount.png" alt="My account" />
+
+Feedback:
+
+<img src="assets/images/project-overview-feedback.png" alt="Feedback" />
+
+Showing Responsive Design:
+
+<img src="assets/images/project-overview-responsive.png" alt="Responsive design" />
+
+
+<br />
+<br />
 
 ## License
 
