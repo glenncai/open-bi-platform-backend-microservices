@@ -1,4 +1,4 @@
-package com.glenncai.openbiplatform.aianalytics.mapper;
+package com.glenncai.openbiplatform.aianalytics.manager;
 
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;

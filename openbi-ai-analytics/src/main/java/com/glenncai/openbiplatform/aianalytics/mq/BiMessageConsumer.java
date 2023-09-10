@@ -5,7 +5,7 @@ import com.glenncai.openbiplatform.aianalytics.constant.BiMqConstant;
 import com.glenncai.openbiplatform.aianalytics.constant.ChartConstant;
 import com.glenncai.openbiplatform.aianalytics.exception.enums.AiExceptionEnum;
 import com.glenncai.openbiplatform.aianalytics.exception.enums.MqExceptionEnum;
-import com.glenncai.openbiplatform.aianalytics.mapper.AiManager;
+import com.glenncai.openbiplatform.aianalytics.manager.AiManager;
 import com.glenncai.openbiplatform.aianalytics.model.dto.ChartUpdateStatusRequest;
 import com.glenncai.openbiplatform.aianalytics.model.dto.ChatRequest;
 import com.glenncai.openbiplatform.aianalytics.model.entity.Chart;
