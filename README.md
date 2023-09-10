@@ -91,14 +91,15 @@ handles multiple requests in a multi-threaded manner. If you are interested, you
 
 <br />
 
-Open BI Platform Preview:
+Open BI Platform Bot Preview:
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/images/open-bi-platform-bot-white.png">
   <source media="(prefers-color-scheme: light)" srcset="assets/images/open-bi-platform-bot-dark.png">
-  <img src="assets/images/open-bi-platform-bot-white.png" alt="Open BI Platform Preview" />
+  <img src="assets/images/open-bi-platform-bot-white.png" alt="Open BI Platform Bot Preview" />
 </picture>
 
+<br />
 <br />
 
 Code snippet calling the Open BI Platform Bot service:
@@ -163,18 +164,74 @@ Example of results returned by Open BI Platform Bot:
 
 <img src="assets/images/open-bi-platform-bot-return-result.png" alt="Example of results returned by Open BI Platform Bot" />
 
+<br />
+<br />
+
 ## Setting Up Locally
+
+#### For Microservices Backend:
+
+1. Java 17
+2. MySQL 8.0+
+3. Redis
+4. RabbitMQ
+5. Zipkin
+
+#### For Frontend:
+
+1. Node.js 18.0+
+2. npm 9.0+
+
+#### For Python AI service:
+
+1. Python 3.9
 
 <br />
 
-### Prerequisites
-
-Zipkin is used for distributed tracing. You can download the latest version of Zipkin from
+**Zipkin** is used for distributed tracing. You can download the latest version of Zipkin from
 the [official website](https://zipkin.io/pages/quickstart.html). I recommend using Docker to run Zipkin.
 
 ```shell
 docker run -d -p 9411:9411 --name zipkin openzipkin/zipkin
 ```
+
+<br />
+<br />
+
+## Tech Stack
+
+#### Backend
+
+* Java
+* Spring Boot
+* Spring Cloud Gateway
+* Spring Cloud Config
+* Spring Cloud Circuit Breaker
+* Spring Cloud Load Balancer
+* Spring Cloud Sleuth
+* Spring Cache
+* Eureka
+* OpenFeign
+* RabbitMQ
+* Redis
+* MySQL
+* MyBatis
+* Zipkin
+* Docker
+
+#### Frontend
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+* Apache ECharts
+
+#### Python AI service
+
+* Python
+* Flask
+* poe-api-wrapper
 
 ## License
 
