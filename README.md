@@ -1,4 +1,9 @@
 <a href="https://glenncai.com">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/images/introduction-white.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/images/introduction-dark.png">
+    <img src="assets/images/introduction-white.png" alt="An open-source business intelligence platform based on microservice architecture.">
+  </picture>
   <h1 align="center">Open BI Platform</h1>
 </a>
 
