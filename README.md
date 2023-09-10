@@ -1,3 +1,5 @@
+<h3 align="center">This project is ongoing🔥🔥🔥</h3>
+
 <a href="https://glenncai.com">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/images/introduction-white.png">
@@ -40,7 +42,7 @@ of manual data analysis.
 
 <br />
 
-## Workflow
+## AI Analysis Workflow
 
 <br />
 
