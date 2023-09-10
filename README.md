@@ -16,7 +16,8 @@
 <p align="center">
   <a href="#introduction"><strong>Introduction</strong></a> ·
   <a href="#architecture"><strong>Architecture</strong></a> ·
-  <a href="#workflow"><strong>Workflow</strong></a> · 
+  <a href="#ai-analysis-workflow"><strong>AI Analysis Workflow</strong></a> · 
+  <a href="#rabbitmq-workflow"><strong>RabbitMQ Workflow</strong></a> · 
   <a href="#setting-up-locally"><strong>Setting Up Locally</strong></a> ·
   <a href="#tech-stack"><strong>Tech Stack</strong></a> ·
   <a href="#license"><strong>License</strong></a>
@@ -35,24 +36,30 @@ of manual data analysis.
 ## Architecture
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/images/open-bi-platform-architecture-white.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/images/open-bi-platform-architecture-dark.svg">
-  <img src="assets/images/open-bi-platform-architecture-white.svg" alt="Architecture">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/images/open-bi-platform-architecture-white.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/images/open-bi-platform-architecture-dark.png">
+  <img src="assets/images/open-bi-platform-architecture-white.png" alt="Architecture">
 </picture>
 
+<br />
 <br />
 
 ## AI Analysis Workflow
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/images/ai-analytics-workflow-white.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/images/ai-analytics-workflow-dark.svg">
-  <img src="assets/images/ai-analytics-workflow-white.svg" alt="Architecture">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/images/ai-analytics-workflow-white.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/images/ai-analytics-workflow-dark.png">
+  <img src="assets/images/ai-analytics-workflow-white.png" alt="AI Analysis Workflow">
 </picture>
 
 <br />
+<br />
+
+## RabbitMQ Workflow
 
 ## Setting Up Locally
+
+<br />
 
 ### Prerequisites
 
