@@ -49,7 +49,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
   @Override
   protected Map<String, Object> getErrorAttributes(ServerRequest request,
                                                    ErrorAttributeOptions options) {
-    int code = 401;
+    int code = 500;
     Throwable error = super.getError(request);
     if (error instanceof NotFoundException) {
       code = 404;

@@ -71,18 +71,6 @@ Authorization: Bearer {{auth_token}}
 
 ###
 
-### Get login user info
-POST http://localhost:8000/api/user/get/login
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer {{auth_token}}
-
-{
-  "token": {{auth_token}}
-}
-
-###
-
 ### Get user info by user id
 GET http://localhost:8000/api/user/get/1698906542983110657
 Accept: application/json
