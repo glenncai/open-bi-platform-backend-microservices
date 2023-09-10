@@ -57,6 +57,12 @@ of manual data analysis.
 
 ## RabbitMQ Workflow
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/images/rabbitmq-white.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/images/rabbitmq-dark.png">
+  <img src="assets/images/rabbitmq-white.png" alt="RabbitMQ Workflow">
+</picture>
+
 ## Setting Up Locally
 
 <br />
