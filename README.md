@@ -37,12 +37,18 @@ of manual data analysis.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/images/open-bi-platform-architecture-white.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/images/open-bi-platform-architecture-dark.svg">
-  <img src="assets/images/open-bi-platform-architecture-white.png" alt="Architecture">
+  <img src="assets/images/open-bi-platform-architecture-white.svg" alt="Architecture">
 </picture>
 
 <br />
 
 ## AI Analysis Workflow
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/images/ai-analytics-workflow-white.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/images/ai-analytics-workflow-dark.svg">
+  <img src="assets/images/ai-analytics-workflow-white.svg" alt="Architecture">
+</picture>
 
 <br />
 
