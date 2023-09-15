@@ -3,6 +3,7 @@ package com.glenncai.openbiplatform.aianalytics.service.impl;
 import static com.glenncai.openbiplatform.common.utils.NetUtils.getClientIpAddress;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.glenncai.openbiplatform.aianalytics.constant.BiMqConstant;
 import com.glenncai.openbiplatform.aianalytics.constant.ChartConstant;
@@ -21,6 +22,7 @@ import com.glenncai.openbiplatform.aianalytics.utils.ChartUtils;
 import com.glenncai.openbiplatform.aianalytics.utils.ExcelUtils;
 import com.glenncai.openbiplatform.aianalytics.utils.FileUtils;
 import com.glenncai.openbiplatform.common.constant.AiConstant;
+import com.glenncai.openbiplatform.common.constant.CommonConstant;
 import com.glenncai.openbiplatform.common.constant.UserConstant;
 import com.glenncai.openbiplatform.common.exception.BusinessException;
 import com.glenncai.openbiplatform.common.model.dto.CheckQuotaReq;
@@ -48,6 +50,9 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
 
   @Resource
   private IpFeign ipFeign;
+
+  @Resource
+  private ChartMapper chartMapper;
 
   @Resource
   private RedisLimiterManager redisLimiterManager;
@@ -152,6 +157,21 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
     ReduceCallQuotaReq reduceCallQuotaReq = new ReduceCallQuotaReq();
     reduceCallQuotaReq.setUserId(currentUserId);
     ipFeign.reduceCallQuota(reduceCallQuotaReq);
+  }
+
+  /**
+   * Get chart list VO api
+   *
+   * @param pageNum page number
+   * @param request http request
+   * @return chart list VO
+   */
+  @Override
+  public Page<Chart> getChartList(int pageNum, HttpServletRequest request) {
+    String token = JwtUtils.getJwtFromAuthorizationHeader(request);
+    long userId = JwtUtils.getFilteredPayloads(token).getLong("id");
+    Page<Chart> page = new Page<>(pageNum, CommonConstant.PAGE_SIZE);
+    return chartMapper.getChartListVO(page, userId);
   }
 
   /**

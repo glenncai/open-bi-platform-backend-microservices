@@ -27,4 +27,19 @@
     user_id,valid,created_at,
     updated_at
   </sql>
+
+  <select id="getChartListVO" parameterType="long" resultType="Chart">
+    SELECT goal,
+           name,
+           chart_type,
+           gen_chart_data,
+           gen_chart_conclusion,
+           status,
+           created_at,
+           updated_at
+    FROM t_chart
+    WHERE `user_id` = #{userId}
+      AND `valid` = 1
+    ORDER BY created_at DESC
+  </select>
 </mapper>

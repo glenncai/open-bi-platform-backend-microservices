@@ -29,3 +29,9 @@ Analyze website user growth
 --WebAppBoundary
 
 ###
+
+### Select chart list by page
+GET http://localhost:8000/api/chart/list?page=6
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}

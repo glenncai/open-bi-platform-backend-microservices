@@ -1,5 +1,6 @@
 package com.glenncai.openbiplatform.aianalytics.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.glenncai.openbiplatform.aianalytics.model.dto.ChartGenByAiRequest;
 import com.glenncai.openbiplatform.aianalytics.model.dto.ChartUpdateStatusRequest;
@@ -25,6 +26,15 @@ public interface ChartService extends IService<Chart> {
    */
   void genChartByAiAsyncMq(MultipartFile multipartFile, ChartGenByAiRequest chartGenByAiRequest,
                            HttpServletRequest request);
+
+  /**
+   * Get chart list VO api
+   *
+   * @param pageNum page number
+   * @param request http request
+   * @return chart list VO
+   */
+  Page<Chart> getChartList(int pageNum, HttpServletRequest request);
 
   /**
    * Updates chart status
