@@ -1,0 +1,15 @@
+### Redis Testing
+
+### Set key value
+GET http://localhost:8000/api/chart/redis/set/123/test1
+Content-Type: application/json
+Accept: application/json
+
+###
+
+### Get key value
+GET http://localhost:8000/api/chart/redis/get/123
+Content-Type: application/json
+Accept: application/json
+
+###

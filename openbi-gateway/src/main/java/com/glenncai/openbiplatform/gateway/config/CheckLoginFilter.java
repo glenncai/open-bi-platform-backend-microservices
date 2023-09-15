@@ -27,7 +27,8 @@ public class CheckLoginFilter implements Ordered, GlobalFilter {
     String path = exchange.getRequest().getURI().getPath();
 
     // Exclude the request path that does not need to be verified
-    if (path.contains("/user/login") || path.contains("/user/register")) {
+    if (path.contains("/user/login") || path.contains("/user/register") ||
+        path.contains("/redis")) {
       log.info("Path: {}, no need to verify", path);
       return chain.filter(exchange);
     } else {
