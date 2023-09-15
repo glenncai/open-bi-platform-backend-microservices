@@ -8,6 +8,8 @@ server:
   address: 0.0.0.0
   servlet:
     context-path: /api
+mybatis-plus:
+  type-aliases-package: com.glenncai.openbiplatform.aikey.model.entity
 logging:
   config: classpath:logback-spring.xml # Logback configuration file
   level:

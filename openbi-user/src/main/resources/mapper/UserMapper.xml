@@ -22,7 +22,7 @@
   </sql>
 
   <!-- Login sql query -->
-  <select id="login" parameterType="string" resultType="com.glenncai.openbiplatform.user.model.entity.User">
+  <select id="login" parameterType="string" resultType="User">
     SELECT *
     FROM t_user
     WHERE `username` = #{username}
@@ -32,8 +32,7 @@
   </select>
 
   <!-- Select disabled user by username -->
-  <select id="selectDisabledUserByUsername" parameterType="string"
-    resultType="com.glenncai.openbiplatform.user.model.entity.User">
+  <select id="selectDisabledUserByUsername" parameterType="string" resultType="User">
     SELECT *
     FROM t_user
     WHERE `username` = #{username}
