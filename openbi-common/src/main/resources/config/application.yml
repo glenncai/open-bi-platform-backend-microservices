@@ -14,9 +14,12 @@ spring:
     timeout: 10s
     password: test123456!
   cache:
-    redis:
-      time-to-live: 2592000000 # 30 days
     type: redis
+    redis:
+      time-to-live: 86400s # 1 day
+      use-key-prefix: true
+      key-prefix: openbi_cache_
+      cache-null-values: false
   datasource:
     url: jdbc:mysql://localhost:3306/bi?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Hong_Kong
     username: root

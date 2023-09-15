@@ -30,6 +30,7 @@ import com.glenncai.openbiplatform.common.model.dto.ReduceCallQuotaReq;
 import com.glenncai.openbiplatform.common.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -167,6 +168,7 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
    * @return chart list VO
    */
   @Override
+  @Cacheable(value = "ChartServiceImpl.getChartList", key = "#pageNum")
   public Page<Chart> getChartList(int pageNum, HttpServletRequest request) {
     String token = JwtUtils.getJwtFromAuthorizationHeader(request);
     long userId = JwtUtils.getFilteredPayloads(token).getLong("id");
