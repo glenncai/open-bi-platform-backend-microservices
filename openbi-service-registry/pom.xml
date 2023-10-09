@@ -59,7 +59,17 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>repackage</id>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
+          <mainClass>com.glenncai.openbiplatform.serviceregistry.ServiceRegistryApplication</mainClass>
+          <layout>JAR</layout>
           <excludes>
             <exclude>
               <groupId>org.projectlombok</groupId>

@@ -37,3 +37,12 @@ logs/
 
 ### Http Client ###
 http/http-client.private.env.json
+
+mvn
+
+### Docker Compose ###
+.mysql-data
+.rabbitmq-data
+.redis-data
+.elasticsearch-data
+.run

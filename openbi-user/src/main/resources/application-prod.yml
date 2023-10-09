@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: OPEN-BI-USER-SERVICE
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -9,10 +11,10 @@ spring:
       enabled: true
   redis:
     database: 0
-    host: localhost
+    host: redis
+    password: test123456!
     port: 6379
     timeout: 10s
-    password: test123456!
   cache:
     type: redis
     redis:
@@ -21,10 +23,17 @@ spring:
       key-prefix: openbi_cache_
       cache-null-values: false
   datasource:
-    url: jdbc:mysql://localhost:3306/bi?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Hong_Kong
+    url: jdbc:mysql://mysql:3306/bi?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Hong_Kong
     username: root
     password: test123456!
     driver-class-name: com.mysql.cj.jdbc.Driver
+  config:
+    import: configserver:http://${CONFIG_SERVER_URL:localhost}:8080
+server:
+  port: 8001
+  address: 0.0.0.0
+  servlet:
+    context-path: /api
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -38,3 +47,16 @@ mybatis-plus:
 feign:
   httpclient:
     enabled: true
+logging:
+  config: classpath:logback-spring.xml # Logback configuration file
+  level:
+    org:
+      springframework:
+        cloud:
+          loadbalancer:
+            cache: debug
+    com:
+      glenncai:
+        openbiplatform:
+          user:
+            mapper: trace

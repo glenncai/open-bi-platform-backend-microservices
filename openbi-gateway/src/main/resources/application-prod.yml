@@ -1,13 +1,13 @@
 spring:
-  profiles:
-    active: dev
   application:
     name: OPEN-BI-GATEWAY
   config:
+    activate:
+      on-profile: prod
     import: configserver:http://${CONFIG_SERVER_URL:localhost}:8080
   redis:
     database: 1
-    host: localhost
+    host: redis
     port: 6379
     timeout: 10s
     password: test123456!

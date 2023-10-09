@@ -1,15 +1,55 @@
 spring:
+  profiles:
+    active: dev
   application:
     name: OPEN-BI-AI-KEY-SERVICE
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 10MB
+      enabled: true
+  redis:
+    database: 0
+    host: localhost
+    password: test123456!
+    port: 6379
+    timeout: 10s
+  cache:
+    type: redis
+    redis:
+      time-to-live: 86400s # 1 day
+      use-key-prefix: true
+      key-prefix: openbi_cache_
+      cache-null-values: false
+  datasource:
+    url: jdbc:mysql://localhost:3306/bi?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Hong_Kong
+    username: root
+    password: test123456!
+    driver-class-name: com.mysql.cj.jdbc.Driver
   config:
-    import: configserver:http://localhost:8080
+    import: configserver:http://${CONFIG_SERVER_URL:localhost}:8080
 server:
   port: 8004
   address: 0.0.0.0
   servlet:
     context-path: /api
 mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: valid
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+  mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.glenncai.openbiplatform.aikey.model.entity
+feign:
+  httpclient:
+    enabled: true
 logging:
   config: classpath:logback-spring.xml # Logback configuration file
   level:

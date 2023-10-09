@@ -5,27 +5,41 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 
 /**
- * BI RabbitMQ message queue and exchange initialization (Manually)
+ * BI RabbitMQ message queue and exchange initialization (Automatically)
  *
  * @author Glenn Cai
- * @version 1.0 29/08/2023
+ * @version 1.0 08/10/2023
  */
 @Slf4j
-public class BiMqInit {
+@Component
+public class BiMqBeanInit {
 
-  public static void main(String[] args) {
+  @Value("${spring.rabbitmq.host}")
+  private String host;
+
+  @Value("${spring.rabbitmq.username}")
+  private String username;
+
+  @Value("${spring.rabbitmq.password}")
+  private String password;
+
+  @PostConstruct
+  public void init() {
     try {
       ConnectionFactory factory = new ConnectionFactory();
 
       // RabbitMQ configuration
-      factory.setHost(BiMqConstant.BI_MQ_HOST);
-      factory.setUsername(BiMqConstant.BI_MQ_LOGIN_USERNAME);
-      factory.setPassword(BiMqConstant.BI_MQ_LOGIN_PASSWORD);
+      factory.setHost(host);
+      factory.setUsername(username);
+      factory.setPassword(password);
 
       Connection connection = factory.newConnection();
       Channel channel = connection.createChannel();

@@ -232,11 +232,12 @@ Example of results returned by Open BI Platform Bot:
 
 <br />
 
-**Zipkin** is used for distributed tracing. You can download the latest version of Zipkin from
-the [official website](https://zipkin.io/pages/quickstart.html). I recommend using Docker to run Zipkin.
+```shell
+docker-compose -f docker-compose.env.yml up -d
+```
 
 ```shell
-docker run -d -p 9411:9411 --name zipkin openzipkin/zipkin
+docker-compose -f docker-compose.service.yml up -d
 ```
 
 <br />

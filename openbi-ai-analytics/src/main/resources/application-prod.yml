@@ -1,8 +1,6 @@
 spring:
-  profiles:
-    active: dev
   application:
-    name: OPEN-BI-USER-SERVICE
+    name: OPEN-BI-AI-ANALYTICS-SERVICE
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -13,7 +11,7 @@ spring:
       enabled: true
   redis:
     database: 0
-    host: localhost
+    host: redis
     password: test123456!
     port: 6379
     timeout: 10s
@@ -25,14 +23,19 @@ spring:
       key-prefix: openbi_cache_
       cache-null-values: false
   datasource:
-    url: jdbc:mysql://localhost:3306/bi?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Hong_Kong
+    url: jdbc:mysql://mysql:3306/bi?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Hong_Kong
     username: root
     password: test123456!
     driver-class-name: com.mysql.cj.jdbc.Driver
   config:
     import: configserver:http://${CONFIG_SERVER_URL:localhost}:8080
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
 server:
-  port: 8001
+  port: 8003
   address: 0.0.0.0
   servlet:
     context-path: /api
@@ -46,7 +49,7 @@ mybatis-plus:
       logic-delete-value: 0
       logic-not-delete-value: 1
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.glenncai.openbiplatform.user.model.entity
+  type-aliases-package: com.glenncai.openbiplatform.aianalytics.model.entity
 feign:
   httpclient:
     enabled: true
@@ -61,5 +64,5 @@ logging:
     com:
       glenncai:
         openbiplatform:
-          user:
+          aianalytics:
             mapper: trace

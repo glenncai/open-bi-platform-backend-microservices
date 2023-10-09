@@ -1,0 +1,127 @@
+version: '3'
+networks:
+  openbinetwork: # Default network
+services:
+  openbi-service-registry:
+    image: 'openbi/service-registry:0.0.1'
+    container_name: 'openbi-service-registry'
+    build:
+      context: ./openbi-service-registry
+      dockerfile: Dockerfile
+    ports:
+      - '8761:8761'
+    networks:
+      - openbinetwork
+  openbi-config-server:
+    image: 'openbi/config-server:0.0.1'
+    container_name: 'openbi-config-server'
+    build:
+      context: ./openbi-config-server
+      dockerfile: Dockerfile
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://openbi-service-registry:8761/eureka
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://openbi-config-server:8080/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      - openbi-service-registry
+    ports:
+      - '8080:8080'
+    networks:
+      - openbinetwork
+  openbi-gateway:
+    image: 'openbi/gateway:0.0.1'
+    container_name: 'openbi-gateway'
+    build:
+      context: ./openbi-gateway
+      dockerfile: Dockerfile
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://openbi-service-registry:8761/eureka
+      - CONFIG_SERVER_URL=openbi-config-server
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://openbi-gateway:8000/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      openbi-config-server:
+        condition: service_healthy
+    ports:
+      - '8000:8000'
+    networks:
+      - openbinetwork
+  openbi-user-service:
+    image: 'openbi/user-service:0.0.1'
+    container_name: 'openbi-user-service'
+    build:
+      context: ./openbi-user
+      dockerfile: Dockerfile
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://openbi-service-registry:8761/eureka
+      - CONFIG_SERVER_URL=openbi-config-server
+    depends_on:
+      openbi-gateway:
+        condition: service_healthy
+      openbi-config-server:
+        condition: service_healthy
+    ports:
+      - '8001:8001'
+    networks:
+      - openbinetwork
+  openbi-ip-service:
+    image: 'openbi/ip-service:0.0.1'
+    container_name: 'openbi-ip-service'
+    build:
+      context: ./openbi-ip
+      dockerfile: Dockerfile
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://openbi-service-registry:8761/eureka
+      - CONFIG_SERVER_URL=openbi-config-server
+    depends_on:
+      openbi-gateway:
+        condition: service_healthy
+      openbi-config-server:
+        condition: service_healthy
+    ports:
+      - '8002:8002'
+    networks:
+      - openbinetwork
+  openbi-aianalytics-service:
+    image: 'openbi/aianalytics-service:0.0.1'
+    container_name: 'openbi-aianalytics-service'
+    build:
+      context: ./openbi-ai-analytics
+      dockerfile: Dockerfile
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://openbi-service-registry:8761/eureka
+      - CONFIG_SERVER_URL=openbi-config-server
+    depends_on:
+      openbi-gateway:
+        condition: service_healthy
+      openbi-config-server:
+        condition: service_healthy
+    ports:
+      - '8003:8003'
+    networks:
+      - openbinetwork
+  openbi-key-service:
+    image: 'openbi/key-service:0.0.1'
+    container_name: 'openbi-key-service'
+    build:
+      context: ./openbi-ai-key
+      dockerfile: Dockerfile
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://openbi-service-registry:8761/eureka
+      - CONFIG_SERVER_URL=openbi-config-server
+    depends_on:
+      openbi-gateway:
+        condition: service_healthy
+      openbi-config-server:
+        condition: service_healthy
+    ports:
+      - '8004:8004'
+    networks:
+      - openbinetwork
+
